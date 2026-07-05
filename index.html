@@ -1,36 +1,127 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GreenVibe.Wave — Build Progress</title><style>
-body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:#f4f7f4;color:#212121}
-header{background:linear-gradient(120deg,#1b5e20,#2e7d32);color:#fff;padding:28px 40px}
-header h1{margin:0;font-size:26px} header p{margin:6px 0 0;opacity:.85}
-main{max-width:1080px;margin:0 auto;padding:28px 40px}
-.card{background:#fff;border-radius:10px;padding:22px 26px;margin-bottom:22px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.bar{background:#e0e6e0;border-radius:999px;height:18px;overflow:hidden}
-.fill{background:linear-gradient(90deg,#43a047,#2e7d32);height:100%;width:35%;border-radius:999px;
-       color:#fff;font-size:11px;line-height:18px;text-align:right;padding-right:8px;box-sizing:border-box;min-width:36px}
-table{width:100%;border-collapse:collapse;font-size:13.5px}
-th{text-align:left;color:#546e57;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;
-    border-bottom:2px solid #dfe7df;padding:8px 10px}
-td{padding:9px 10px;border-bottom:1px solid #eef2ee;vertical-align:top}
-.pill{padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
-.mono{font-family:Consolas,monospace;color:#546e57} .note{color:#6b7a6d;font-size:12.5px}
-.btn{display:inline-block;margin:6px 10px 0 0;padding:10px 16px;background:#2e7d32;color:#fff;
-      text-decoration:none;border-radius:8px;font-weight:600;font-size:14px}
-.btn:hover{background:#1b5e20}
-.j{padding:10px 0;border-bottom:1px solid #eef2ee;font-size:13.5px}
-.jd{display:inline-block;font-family:Consolas,monospace;color:#2e7d32;font-weight:700;margin-right:12px}
-h2{font-size:16px;color:#1b5e20;margin:0 0 14px}
-.meta{color:#6b7a6d;font-size:13px;margin-top:4px}
-</style></head><body>
-<header><h1>GreenVibe.Wave — Build Progress</h1>
-<p>Current focus: Prototype v0.2 delivered - next: real geolocation, Ambassador role in prototype, pilot playbook draft &nbsp;·&nbsp; Phase 1 (prototype track) - MVP Build &nbsp;·&nbsp; Last updated 2026-07-05</p></header>
-<main>
-<div class="card"><h2>Overall build progress</h2>
-<div class="bar"><div class="fill">35%</div></div>
-<p class="meta">Weighted across 16 tracked epics (in-progress counts 45%). Public build status — refresh for the latest state.</p></div>
-<div class="card"><h2>Open right now</h2><a class="btn" href="app/index.html">Open the prototype (click-through MVP) →</a></div>
-<div class="card"><h2>Epic status</h2><table>
-<tr><th>ID</th><th>Phase</th><th>Epic</th><th>Status</th><th>Note</th></tr><tr><td class="mono">F1</td><td>P0</td><td>Eco Coin legal opinion</td><td><span class="pill" style="color:#8e44ad;background:#f3e8fa">Waiting on Val</span></td><td class="note">Needs external counsel - briefing pack can be drafted on request</td></tr><tr><td class="mono">F3</td><td>P0</td><td>MVP scope freeze &amp; backlog</td><td><span class="pill" style="color:#2e7d32;background:#e8f3e8">Done</span></td><td class="note">Program Plan Section 4 + workbook MVP Scope sheet</td></tr><tr><td class="mono">F5</td><td>P0</td><td>Close Decision Log #2/#5/#6</td><td><span class="pill" style="color:#8e44ad;background:#f3e8fa">Waiting on Val</span></td><td class="note">Partner structure &amp; sponsor models - founder decisions</td></tr><tr><td class="mono">F6</td><td>P0</td><td>Pilot city shortlist</td><td><span class="pill" style="color:#7f8c8d;background:#eef0f0">Not started</span></td><td class="note">Can draft criteria &amp; candidate analysis together</td></tr><tr><td class="mono">M1</td><td>P1</td><td>Foundation: roles, profiles, app shell</td><td><span class="pill" style="color:#b47d00;background:#fff3cd">In progress</span></td><td class="note">v0.2: Doer maturity levels (XP model, 5 levels, level-up on validation). Level names provisional - cross-check deck naming</td></tr><tr><td class="mono">M2</td><td>P1</td><td>Payments &amp; EC ledger</td><td><span class="pill" style="color:#b47d00;background:#fff3cd">In progress</span></td><td class="note">Mock payments + working ledger logic in v0; Stripe deferred until legal gate</td></tr><tr><td class="mono">M3</td><td>P1</td><td>Mission engine: spawn, queue, claim, statuses</td><td><span class="pill" style="color:#b47d00;background:#fff3cd">In progress</span></td><td class="note">Working in v0 with full audit trail</td></tr><tr><td class="mono">M4</td><td>P1</td><td>Validation v1: photo + GPS + review</td><td><span class="pill" style="color:#b47d00;background:#fff3cd">In progress</span></td><td class="note">v0.2: before/after photo capture with camera + previews; peer confirm &amp; real GPS next</td></tr><tr><td class="mono">M5</td><td>P1</td><td>Karma Coin earning core</td><td><span class="pill" style="color:#b47d00;background:#fff3cd">In progress</span></td><td class="note">Per-mission + per-kg KC logic working in v0</td></tr><tr><td class="mono">M6</td><td>P1</td><td>Map v1: pins &amp; zone status</td><td><span class="pill" style="color:#b47d00;background:#fff3cd">In progress</span></td><td class="note">Schematic SVG map with zones, live mission pins, zone detail panel in v0.2; real geo tiles in production build</td></tr><tr><td class="mono">M7</td><td>P1</td><td>Impact engine + Patron dashboard</td><td><span class="pill" style="color:#b47d00;background:#fff3cd">In progress</span></td><td class="note">Calculator parameters wired and verified in v0</td></tr><tr><td class="mono">M8</td><td>P1</td><td>Admin panel essentials + GDPR flows</td><td><span class="pill" style="color:#b47d00;background:#fff3cd">In progress</span></td><td class="note">Validation review + audit trail in v0; GDPR flows later</td></tr><tr><td class="mono">M9</td><td>P1</td><td>Loop integrity: E2E mission end-to-end</td><td><span class="pill" style="color:#2e7d32;background:#e8f3e8">Done</span></td><td class="note">Loop closes in prototype v0 - verified by automated test 2026-07-05 incl. rejection path</td></tr><tr><td class="mono">P1</td><td>P2</td><td>Seed Circles &amp; pilot prep</td><td><span class="pill" style="color:#7f8c8d;background:#eef0f0">Not started</span></td><td class="note"></td></tr><tr><td class="mono">E1</td><td>P3</td><td>Newsfeed v1</td><td><span class="pill" style="color:#7f8c8d;background:#eef0f0">Not started</span></td><td class="note">Deferred by design</td></tr><tr><td class="mono">E2</td><td>P3</td><td>Circles v1</td><td><span class="pill" style="color:#7f8c8d;background:#eef0f0">Not started</span></td><td class="note">Deferred by design</td></tr></table></div>
-<div class="card"><h2>Build journal (newest first)</h2><div class="j"><span class="jd">2026-07-05</span>PUBLIC LINK LIVE: https://vgeorgieva24-pixel.github.io/greenvibe-wave-status/ - GitHub Pages from repo vgeorgieva24-pixel/greenvibe-wave-status. Update procedure: Claude keeps share/ current; Val refreshes the public site via repo -&gt; Add file -&gt; Upload files -&gt; drag share/ contents -&gt; Commit (30 sec).</div><div class="j"><span class="jd">2026-07-05</span>Prototype v0.2: visual territory map (SVG, zones + live mission pins + zone panel), before/after photo evidence with camera capture and previews, Doer maturity system (XP, 5 levels, level-up celebrations). All flows re-tested incl. v0-&gt;v0.2 data migration. DECISION (provisional, reversible): level names L1-L5 set as First Steps/Earth Keeper/Trail Guardian/Nature Custodian/Wave Maker pending deck cross-check.</div><div class="j"><span class="jd">2026-07-05</span>Prototype v0 DELIVERED: app/index.html - full mission lifecycle loop clickable (Patron funds -&gt; EC ledger -&gt; mission spawns -&gt; Doer claims -&gt; photo+GPS evidence -&gt; admin validation -&gt; KC reward + verified impact). Math verified against Impact Calculator parameters. Next: visual map (M6), real photo-capture UX, Doer maturity levels.</div><div class="j"><span class="jd">2026-07-05</span>Build kicked off. Observability set up: this dashboard + STATUS.json convention. Prototype v0 (mission loop, mock payments) started.</div><div class="j"><span class="jd">2026-07-05</span>Program established: source material mined (deck v1.3, 13 workbooks), Program Plan v1.0 and Roadmap/RAID workbook delivered. MVP anchored on mission lifecycle loop.</div></div>
-</main></body></html>
+<title>GreenVibe.Wave — Clean the planet, one square meter at a time</title>
+<style>
+:root{--green:#2e7d32;--dark:#0f3d13;--mid:#1b5e20;--light:#e8f3e8;--accent:#7bd389;--grey:#5f6a6a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:#1c2b1e;background:#fbfdfb;overflow-x:hidden}
+a{text-decoration:none}
+.hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  background:radial-gradient(ellipse at 30% 20%,#2e7d32 0%,#1b5e20 45%,#0f3d13 100%);color:#fff;padding:60px 24px;position:relative}
+.hero::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:80px;background:#fbfdfb;
+  clip-path:ellipse(60% 100% at 50% 100%)}
+.wave{font-size:15px;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;animation:fadeUp .8s ease both}
+h1{font-size:clamp(40px,7vw,76px);font-weight:800;line-height:1.05;animation:fadeUp .8s .15s ease both}
+h1 .w{color:var(--accent)}
+.motto{font-size:clamp(17px,2.4vw,23px);margin-top:22px;opacity:.92;max-width:640px;animation:fadeUp .8s .3s ease both}
+.ctas{margin-top:44px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s .45s ease both}
+.btn{padding:16px 34px;border-radius:999px;font-weight:700;font-size:17px;transition:transform .2s,box-shadow .2s}
+.btn-primary{background:#fff;color:var(--dark);box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.btn-ghost{border:2px solid rgba(255,255,255,.5);color:#fff}
+.btn:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(0,0,0,.4)}
+section{max-width:1080px;margin:0 auto;padding:80px 24px}
+.kicker{color:var(--green);font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:13px;text-align:center}
+h2{font-size:clamp(28px,4vw,40px);text-align:center;margin:12px 0 14px;color:var(--dark)}
+.lead{text-align:center;color:var(--grey);font-size:18px;max-width:720px;margin:0 auto 50px;line-height:1.6}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px}
+.step{background:#fff;border-radius:18px;padding:34px 28px;box-shadow:0 6px 24px rgba(15,61,19,.08);transition:transform .25s}
+.step:hover{transform:translateY(-6px)}
+.step .n{width:52px;height:52px;border-radius:50%;background:var(--light);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:18px}
+.step h3{color:var(--dark);font-size:20px;margin-bottom:10px}
+.step p{color:var(--grey);line-height:1.6;font-size:15px}
+.chain{background:linear-gradient(120deg,var(--mid),var(--green));border-radius:24px;color:#fff;padding:54px 30px;text-align:center}
+.chain h2{color:#fff}
+.chain .flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:34px;font-weight:700}
+.chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:14px 20px;border-radius:14px;min-width:118px}
+.chip .v{font-size:23px}
+.chip .l{font-size:11.5px;opacity:.8;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.arr{opacity:.7;font-size:20px}
+.chain .note{margin-top:26px;font-size:13.5px;opacity:.75}
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+.role{border-radius:18px;padding:36px 30px;color:#fff;transition:transform .25s;position:relative;overflow:hidden}
+.role:hover{transform:translateY(-6px)}
+.role h3{font-size:24px;margin-bottom:12px}
+.role p{line-height:1.65;font-size:15px;opacity:.95}
+.r1{background:linear-gradient(140deg,#1e6b24,#2e9e38)} .r2{background:linear-gradient(140deg,#0e5a63,#18919e)} .r3{background:linear-gradient(140deg,#7a4d12,#c07c1e)}
+.role .tag{position:absolute;top:18px;right:20px;font-size:36px;opacity:.35}
+.demo{background:var(--light);border-radius:24px;text-align:center;padding:64px 30px}
+.demo p{color:var(--grey);max-width:640px;margin:14px auto 34px;font-size:17px;line-height:1.6}
+.btn-green{background:var(--green);color:#fff;box-shadow:0 8px 26px rgba(46,125,50,.35)}
+footer{background:var(--dark);color:rgba(255,255,255,.75);text-align:center;padding:34px 20px;font-size:13.5px}
+footer a{color:rgba(255,255,255,.45);font-size:12px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wave">🌍 GreenVibe.Wave</div>
+  <h1>Clean the planet,<br>one square <span class="w">meter</span> at a time.</h1>
+  <p class="motto">The platform where every donated lev becomes a real, verified cleanup — funded by Patrons, executed by Doers, grown by Ambassadors.</p>
+  <div class="ctas">
+    <a class="btn btn-primary" href="app/index.html">Try the live demo →</a>
+    <a class="btn btn-ghost" href="#how">How it works</a>
+  </div>
+</div>
+
+<section id="how">
+  <div class="kicker">How it works</div>
+  <h2>From money to verified impact — in one loop</h2>
+  <p class="lead">No anonymous donations disappearing into reports. Every contribution becomes a mission on the map, and every mission ends with photo, GPS and community-verified proof.</p>
+  <div class="steps">
+    <div class="step reveal"><div class="n">💚</div><h3>1 · Fund</h3><p>A Patron funds a cleanup in a zone they care about. The payment converts into Eco Coins and spawns a live mission — visible to everyone on the map.</p></div>
+    <div class="step reveal"><div class="n">🧤</div><h3>2 · Clean</h3><p>A Doer claims the mission, does the cleanup, and submits before &amp; after photos with GPS evidence straight from the field.</p></div>
+    <div class="step reveal"><div class="n">✅</div><h3>3 · Verify &amp; reward</h3><p>Evidence is validated. The Doer earns Karma Coins and levels up; the Patron sees exactly what their money achieved — in kilograms, square meters and CO₂.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="chain reveal">
+    <h2>Every cent is traceable</h2>
+    <div class="flow">
+      <div class="chip"><div class="v">25 BGN</div><div class="l">Funding</div></div><div class="arr">→</div>
+      <div class="chip"><div class="v">12.75</div><div class="l">Eco Coins</div></div><div class="arr">→</div>
+      <div class="chip"><div class="v">1.28 kg</div><div class="l">Trash removed</div></div><div class="arr">→</div>
+      <div class="chip"><div class="v">122 m²</div><div class="l">Area cleaned</div></div><div class="arr">→</div>
+      <div class="chip"><div class="v">3.8 kg</div><div class="l">CO₂ offset</div></div>
+    </div>
+    <div class="note">Science-based conversion model with published parameters — the same engine runs live in the demo.</div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">Three ways to join</div>
+  <h2>A role for everyone who cares</h2>
+  <p class="lead">Whether you give your money, your time or your voice — your contribution is visible, verified and rewarded.</p>
+  <div class="roles">
+    <div class="role r1 reveal"><div class="tag">💚</div><h3>Patrons</h3><p>Fund cleanups in the places you love. Watch your impact grow on your personal dashboard — missions, kilograms, square meters, CO₂ — and download your verified impact report.</p></div>
+    <div class="role r2 reveal"><div class="tag">🧤</div><h3>Doers</h3><p>Turn your energy into visible change. Claim missions near you, earn Karma Coins and XP, level up from First Steps to Wave Maker, and build your reputation as a verified eco-hero.</p></div>
+    <div class="role r3 reveal"><div class="tag">📣</div><h3>Ambassadors</h3><p>Grow the movement. Bring in new Patrons and Doers, track your network's real-world impact, and earn recognition — and rewards — for every verified conversion.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="demo reveal">
+    <div class="kicker">See it yourself</div>
+    <h2>The mission loop is already working</h2>
+    <p>This is a live interactive prototype: fund a mission as a Patron, claim and complete it as a Doer, validate it as an admin — and watch the impact numbers appear. Your clicks stay in your browser.</p>
+    <a class="btn btn-green" href="app/index.html">Open the live demo →</a>
+  </div>
+</section>
+
+<footer>
+  GreenVibe.Wave — a community-powered platform for verified environmental cleanups.<br>
+  In development, 2026 · <a href="status/">build status</a>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("on")}),{threshold:.15});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
