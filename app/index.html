@@ -4,153 +4,297 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/png" href="../assets/favicon.png">
-<title>GreenVibe.Wave — MVP Prototype v0.3</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<title>GreenVibe.Wave — MVP Prototype v0.4</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <style>
 :root{--green:#2e7d32;--dark:#1b5e20;--light:#e8f3e8;--amber:#b47d00;--red:#c0392b;--grey:#6b7a6d}
 *{box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:#f4f7f4;color:#212121}
-header{background:linear-gradient(120deg,var(--dark),var(--green));color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-header h1{margin:0;font-size:20px}
-header .tag{font-size:11px;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:999px;margin-left:10px;vertical-align:middle}
+body{font-family:"Century Gothic","CenturyGothic","Apple Gothic",AppleGothic,"URW Gothic L","Didact Gothic",Verdana,sans-serif;font-size:13px;margin:0;background:#f4f7f4;color:#212121}
+header{background:linear-gradient(120deg,var(--dark),var(--green));color:#fff;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+header h1{margin:0;font-size:18px}
+header .tag{font-size:10px;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:999px;margin-left:10px;vertical-align:middle}
+.hright{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 nav{display:flex;gap:6px;flex-wrap:wrap}
-nav button{border:none;padding:9px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:rgba(255,255,255,.15);color:#fff}
+nav button{border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;background:rgba(255,255,255,.15);color:#fff;font-family:inherit}
 nav button.active{background:#fff;color:var(--dark)}
-main{max-width:1100px;margin:0 auto;padding:24px 28px}
-.card{background:#fff;border-radius:10px;padding:18px 22px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-h2{font-size:15px;color:var(--dark);margin:0 0 12px}
-h3{font-size:13px;color:var(--green);margin:14px 0 6px}
-.row{display:flex;gap:18px;flex-wrap:wrap}
+.langsel{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:8px;padding:7px 10px;font-weight:700;font-size:12px;font-family:inherit}
+.langsel option{color:#212121}
+.flags{display:flex;gap:7px;align-items:center}
+.flagbtn{padding:0;border:2px solid rgba(255,255,255,.35);border-radius:5px;cursor:pointer;background:none;line-height:0;opacity:.75;transition:all .15s}
+.flagbtn:hover{opacity:1;transform:translateY(-1px)}
+.flagbtn.active{border-color:#fff;opacity:1;box-shadow:0 0 8px rgba(255,255,255,.45)}
+.flagbtn svg{display:block;border-radius:3px}
+main{max-width:1100px;margin:0 auto;padding:22px 26px}
+.card{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+h2{font-size:14px;color:var(--dark);margin:0 0 12px}
+h3{font-size:12.5px;color:var(--green);margin:14px 0 6px}
+.row{display:flex;gap:16px;flex-wrap:wrap}
 .row .card{flex:1;min-width:280px}
-.stat{display:inline-block;margin:0 26px 8px 0}
-.stat .v{font-size:24px;font-weight:700;color:var(--dark)}
-.stat .l{font-size:11px;color:var(--grey);text-transform:uppercase;letter-spacing:.05em}
-label{display:block;font-size:12px;color:var(--grey);margin:10px 0 4px;font-weight:600}
-input,select{width:100%;padding:9px 10px;border:1px solid #cfd8cf;border-radius:7px;font-size:14px;background:#fff}
-button.act{background:var(--green);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;margin-top:12px}
+.stat{display:inline-block;margin:0 24px 8px 0}
+.stat .v{font-size:22px;font-weight:700;color:var(--dark)}
+.stat .l{font-size:10px;color:var(--grey);text-transform:uppercase;letter-spacing:.05em}
+label{display:block;font-size:11.5px;color:var(--grey);margin:10px 0 4px;font-weight:700}
+input,select{width:100%;padding:8px 10px;border:1px solid #cfd8cf;border-radius:7px;font-size:13px;background:#fff;font-family:inherit}
+button.act{background:var(--green);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;margin-top:12px;font-family:inherit}
 button.act:hover{background:var(--dark)}
-button.sec{background:#eef2ee;color:var(--dark);border:1px solid #cfd8cf;padding:7px 14px;border-radius:7px;font-weight:600;font-size:13px;cursor:pointer;margin:4px 6px 0 0}
+button.sec{background:#eef2ee;color:var(--dark);border:1px solid #cfd8cf;padding:6px 13px;border-radius:7px;font-weight:700;font-size:12px;cursor:pointer;margin:4px 6px 0 0;font-family:inherit}
 button.danger{background:#fbeaea;color:var(--red);border:1px solid #eec7c7}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;color:#546e57;font-size:11px;text-transform:uppercase;border-bottom:2px solid #dfe7df;padding:7px 8px}
-td{padding:8px;border-bottom:1px solid #eef2ee;vertical-align:top}
-.pill{padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
-.s-Funded{background:#fff3cd;color:var(--amber)} .s-Available{background:#e3f0fb;color:#1d6fa5}
-.s-Claimed{background:#f3e8fa;color:#8e44ad} .s-Submitted{background:#fdebd0;color:#ad6800}
-.s-Validated{background:var(--light);color:var(--green)} .s-Rejected{background:#f8d7da;color:var(--red)}
-.muted{color:var(--grey);font-size:12px}
-.banner{background:var(--light);border-left:4px solid var(--green);padding:10px 14px;border-radius:6px;font-size:13px;margin-bottom:16px}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;padding:13px 20px;border-radius:9px;font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,.25);opacity:0;transition:opacity .3s;pointer-events:none;max-width:340px;z-index:1200}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:#546e57;font-size:10.5px;text-transform:uppercase;border-bottom:2px solid #dfe7df;padding:7px 8px}
+td{padding:7px 8px;border-bottom:1px solid #eef2ee;vertical-align:top}
+.pill{padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
+.s-Available{background:#e3f0fb;color:#4a7fae} .s-Claimed{background:#f3e8fa;color:#9a6cc0}
+.s-Submitted{background:#fdf1dc;color:#c08c3a} .s-Validated{background:var(--light);color:#5a9463} .s-Rejected{background:#f8dfe0;color:#c06c6c}
+.muted{color:var(--grey);font-size:11.5px}
+.banner{background:var(--light);border-left:4px solid #a5d6a7;padding:10px 14px;border-radius:6px;font-size:12.5px;margin-bottom:14px}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;padding:12px 18px;border-radius:9px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.25);opacity:0;transition:opacity .3s;pointer-events:none;max-width:340px;z-index:1200}
 .toast.show{opacity:1}
 .evid{max-width:120px;max-height:80px;border-radius:6px;border:1px solid #dfe7df;margin:4px 6px 0 0}
-.impact{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
-.itile{background:var(--light);border-radius:9px;padding:12px 16px;min-width:120px}
-.itile .v{font-size:20px;font-weight:700;color:var(--dark)} .itile .l{font-size:11px;color:var(--grey)}
-.xpbar{background:#e0e6e0;border-radius:999px;height:14px;overflow:hidden;margin:6px 0 2px}
-.xpfill{background:linear-gradient(90deg,#43a047,#2e7d32);height:100%;border-radius:999px;transition:width .4s}
-.lvl{display:inline-block;background:var(--dark);color:#fff;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700}
+.impact{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.itile{background:var(--light);border-radius:9px;padding:11px 15px;min-width:115px}
+.itile .v{font-size:18px;font-weight:700;color:var(--dark)} .itile .l{font-size:10px;color:var(--grey)}
+.xpbar{background:#e0e6e0;border-radius:999px;height:13px;overflow:hidden;margin:6px 0 2px}
+.xpfill{background:linear-gradient(90deg,#a5d6a7,#81c784);height:100%;border-radius:999px;transition:width .4s}
+.lvl{display:inline-block;background:var(--dark);color:#fff;border-radius:999px;padding:3px 12px;font-size:11px;font-weight:700}
 .preview{max-width:160px;max-height:110px;border-radius:8px;border:2px solid var(--light);display:block;margin-top:6px}
-#geomap{height:540px;border-radius:10px;z-index:1}
+#geomap{height:540px;border-radius:10px}
 .mapwrap{position:relative}
-.mapcredit{position:absolute;bottom:6px;right:10px;z-index:1000;font-size:10.5px;color:#546e57;background:rgba(255,255,255,.78);padding:2px 8px;border-radius:6px;pointer-events:none}
-.tiles-soft{filter:sepia(.2) hue-rotate(55deg) saturate(.8) brightness(1.05)}
-.tiles-vibe{filter:saturate(1.08) hue-rotate(6deg)}
-.filters{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:13px}
-.filters label{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:#212121;font-weight:600;cursor:pointer}
+.mapcredit{position:absolute;bottom:6px;right:10px;z-index:5;font-size:10px;color:#546e57;background:rgba(255,255,255,.78);padding:2px 8px;border-radius:6px;pointer-events:none}
+.tint-soft .maplibregl-canvas{filter:sepia(.10) hue-rotate(50deg) saturate(.65) brightness(1.05)}
+.filters{display:flex;gap:13px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.filters label{display:flex;align-items:center;gap:6px;margin:0;font-size:12px;color:#212121;font-weight:700;cursor:pointer}
 .filters input{width:auto}
-.dot{display:inline-block;width:11px;height:11px;border-radius:50%;border:1.5px solid #fff;box-shadow:0 0 2px rgba(0,0,0,.4)}
-.leaflet-popup-content{font-family:'Segoe UI',system-ui,sans-serif;font-size:13px}
-footer{text-align:center;color:var(--grey);font-size:11.5px;padding:18px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;border:1.5px solid #fff;box-shadow:0 0 2px rgba(0,0,0,.35)}
+.maplibregl-popup-content{font-family:inherit;font-size:12.5px;border-radius:8px}
+footer{text-align:center;color:var(--grey);font-size:10.5px;padding:16px}
 </style>
 </head>
 <body>
 <header>
-  <h1 style="display:flex;align-items:center;gap:12px"><a href="../" title="Back to home"><img src="../assets/logo-dark.png" alt="GreenVibe.Wave" style="height:38px;display:block"></a><span class="tag">MVP Prototype v0.3 — mock payments, local data</span></h1>
-  <nav id="nav"></nav>
+  <h1 style="display:flex;align-items:center;gap:12px"><a href="../" title="Home"><img src="../assets/logo-dark.png" alt="GreenVibe.Wave" style="height:36px;display:block"></a><span class="tag" data-i18n="tagline"></span></h1>
+  <div class="hright">
+    <nav id="nav"></nav>
+    <div class="flags" id="langflags" title="Language"></div>
+  </div>
 </header>
 <main id="main"></main>
-<footer>Prototype runs entirely in your browser (localStorage). Reset data from the Admin tab. Built with Claude — v0.3.</footer>
+<footer id="foot"></footer>
 <div class="toast" id="toast"></div>
 
 <script>
 /* ===== Domain parameters — from Impact Calculator.xlsx ===== */
-const P = {
-  BGN_EUR: 0.51129, EUR_EC: 0.9975, EC_PER_KG: 10,
-  KG_PER_M2: 0.0105, CO2_PER_KG: 3,
-  KC_PER_KG: 1.0, KC_MISSION_BONUS: 5,
-  XP_PER_MISSION: 20, XP_PER_KG: 10
-};
-/* Doer Maturity (deck S80-S81 XP-based model; level names provisional) */
+const P = { BGN_EUR:0.51129, EUR_EC:0.9975, EC_PER_KG:10, KG_PER_M2:0.0105, CO2_PER_KG:3,
+            KC_PER_KG:1.0, KC_MISSION_BONUS:5, XP_PER_MISSION:20, XP_PER_KG:10 };
 const LEVELS = [
-  {n:1, name:"Level 1 · First Steps", xp:0},
-  {n:2, name:"Level 2 · Earth Keeper", xp:50},
-  {n:3, name:"Level 3 · Trail Guardian", xp:150},
-  {n:4, name:"Level 4 · Nature Custodian", xp:400},
-  {n:5, name:"Level 5 · Wave Maker", xp:900}
-];
-/* Real zones (approx. centers + radius in meters) */
+  {n:1, name:"Level 1 · First Steps", xp:0},{n:2, name:"Level 2 · Earth Keeper", xp:50},
+  {n:3, name:"Level 3 · Trail Guardian", xp:150},{n:4, name:"Level 4 · Nature Custodian", xp:400},
+  {n:5, name:"Level 5 · Wave Maker", xp:900}];
 const ZONES = [
   {id:"Z1", name:"Sofia — Borisova Gradina",    lat:42.6790, lng:23.3390, r:900},
   {id:"Z2", name:"Sofia — Vitosha Foothills",   lat:42.6280, lng:23.2800, r:1600},
   {id:"Z3", name:"Plovdiv — Maritsa Riverbank", lat:42.1530, lng:24.7490, r:1300},
-  {id:"Z4", name:"Varna — Asparuhovo Beach",    lat:43.1800, lng:27.9250, r:900}
-];
-const STATUS_COLOR = { Available:"#1d6fa5", Claimed:"#8e44ad", Submitted:"#e08a00", Validated:"#2e7d32", Rejected:"#c0392b" };
+  {id:"Z4", name:"Varna — Asparuhovo Beach",    lat:43.1800, lng:27.9250, r:900}];
+/* pastel status palette */
+const STATUS_COLOR = { Available:"#6fa8d6", Claimed:"#b493d6", Submitted:"#e8b86a", Validated:"#7fbf87", Rejected:"#d98d8d" };
 
-/* ===== State (with migration from v0/v0.2) ===== */
+/* ===== i18n ===== */
+const I18N = {
+ en:{tagline:"MVP Prototype v0.4 — mock payments, local data",
+  nav:{Map:"Map",Patron:"Patron",Doer:"Doer",Admin:"Admin",Ledger:"Ledger"},
+  zones:{Z1:"Sofia — Borisova Gradina",Z2:"Sofia — Vitosha Foothills",Z3:"Plovdiv — Maritsa Riverbank",Z4:"Varna — Asparuhovo Beach"},
+  status:{Available:"Available",Claimed:"Claimed",Submitted:"Submitted",Validated:"Validated",Rejected:"Rejected"},
+  mapBanner:"The <b>Global Map</b> — live view of every mission. Filter by status, click a zone for its story, click a pin for details. Green glows are <b>verified cleaned areas</b>, sized by real impact.",
+  cleanedAreas:"Cleaned areas",style:"Style",styleSoft:"GreenVibe soft",styleFresh:"Fresh colors",styleClassic:"Classic",
+  mapNote:"Zones and mission positions are pilot approximations · map credits shown as text only",
+  zoneClick:"Click a zone on the map to see its missions and impact.",
+  missions:"missions",cleaned:"cleaned",kgVerified:"kg verified",
+  patronBanner:"You are <b>Val (Patron)</b>. Fund a cleanup → it becomes a live mission on the map → a Doer executes it → validation converts your money into verified impact.",
+  fundTitle:"Fund a cleanup (mock payment)",zone:"Zone",amount:"Amount (BGN)",
+  convNote:"BGN × 0.51129 → EUR × 0.9975 (0.25% fee) → EC · 10 EC = 1 kg",pay:"Pay & spawn mission",
+  yourImpact:"Your verified impact",missionsValidated:"Missions validated",kgRemoved:"kg removed",m2Cleaned:"m² cleaned",co2Offset:"kg CO₂ offset",
+  onlyValidated:"Only validated missions count — see them glow green on the Map.",
+  yourMissions:"Your funded missions",nothing:"Nothing here yet.",
+  thId:"ID",thZone:"Zone",thEC:"EC",thKg:"Target kg",thStatus:"Status",thDoer:"Doer",waitingDoer:"Waiting for a Doer",
+  doerBanner:"You are <b>Maria (Doer)</b>",maturity:"Maturity progress",xpNote:"XP comes only from validated missions",xpTo:"XP to",maxLevel:"max level reached",
+  queue:"Mission queue — available",myMissions:"My missions",claim:"Claim",submitEvidence:"Submit evidence",awaiting:"awaiting review",
+  evidenceFor:"Evidence for",before:"BEFORE photo",after:"AFTER photo",
+  gpsNote:"Will capture your real location on submit (with permission) — falls back to mission zone.",submit:"Submit for validation",
+  adminBanner:"You are the <b>platform admin</b>. Review submitted evidence — approve to release rewards and credit impact.",
+  reviewQueue:"Validation review queue",evidence:"Evidence",noBefore:"no before",noAfter:"no after",approve:"Approve",reject:"Reject",queueEmpty:"Queue is empty.",
+  totals:"Platform totals",validated:"validated",audit:"All missions & audit trail",noMissions:"No missions yet.",
+  danger:"Danger zone",reset:"Reset all data",resetConfirm:"Wipe all prototype data?",
+  ledgerBanner:"The <b>Eco Coin ledger</b> — every movement is an internal ledger entry. No real money moves inside the platform (escrow model). Cash-out is disabled in the pilot.",
+  ledgerEntries:"EC ledger entries",noEntries:"No entries yet — fund a mission first.",thTime:"Time",thAccount:"Account",thType:"Type",thNote:"Note",kcxp:"Karma Coins & XP",
+  footer:"Prototype runs entirely in your browser (localStorage). Reset data from the Admin tab. Built with Claude — v0.4.",
+  demoDoer:"Demo Doer",target:"target",claimed:"claimed",fundedToast:"funded — now live on the map",validAmount:"Enter a valid amount",
+  capturing:"Capturing GPS…",submitted:"Evidence submitted with GPS",rewardsReleased:"validated — rewards released",levelUp:"leveled up",rejected:"rejected"},
+ bg:{tagline:"MVP Прототип v0.4 — тестови плащания, локални данни",
+  nav:{Map:"Карта",Patron:"Патрон",Doer:"Доброволец",Admin:"Админ",Ledger:"Регистър"},
+  zones:{Z1:"София — Борисова градина",Z2:"София — Витоша",Z3:"Пловдив — Марица",Z4:"Варна — Аспарухово"},
+  status:{Available:"Отворена",Claimed:"Поета",Submitted:"Чака проверка",Validated:"Валидирана",Rejected:"Отхвърлена"},
+  mapBanner:"<b>Глобалната карта</b> — всички мисии на живо. Филтрирай по статус, кликни зона за детайли, кликни пин за мисията. Зелените ореоли са <b>проверени почистени зони</b>, оразмерени по реален ефект.",
+  cleanedAreas:"Почистени зони",style:"Стил",styleSoft:"GreenVibe меко",styleFresh:"Свежи цветове",styleClassic:"Класика",
+  mapNote:"Зоните и позициите на мисиите са пилотни приближения · кредитите на картата са само текст",
+  zoneClick:"Кликни зона на картата, за да видиш нейните мисии и ефект.",
+  missions:"мисии",cleaned:"почистени",kgVerified:"кг проверени",
+  patronBanner:"Ти си <b>Вал (Патрон)</b>. Финансираш почистване → то става жива мисия на картата → Доброволец я изпълнява → валидацията превръща парите ти в проверен ефект.",
+  fundTitle:"Финансирай почистване (тестово плащане)",zone:"Зона",amount:"Сума (лв)",
+  convNote:"лв × 0.51129 → EUR × 0.9975 (0.25% такса) → EC · 10 EC = 1 кг",pay:"Плати и създай мисия",
+  yourImpact:"Твоят проверен ефект",missionsValidated:"Валидирани мисии",kgRemoved:"кг събрани",m2Cleaned:"м² почистени",co2Offset:"кг CO₂ спестени",
+  onlyValidated:"Броят се само валидирани мисии — виж ги как светят в зелено на Картата.",
+  yourMissions:"Твоите финансирани мисии",nothing:"Още няма нищо тук.",
+  thId:"№",thZone:"Зона",thEC:"EC",thKg:"Целеви кг",thStatus:"Статус",thDoer:"Доброволец",waitingDoer:"Чака доброволец",
+  doerBanner:"Ти си <b>Мария (Доброволец)</b>",maturity:"Ниво на развитие",xpNote:"XP се печели само от валидирани мисии",xpTo:"XP до",maxLevel:"максимално ниво",
+  queue:"Опашка мисии — отворени",myMissions:"Моите мисии",claim:"Поеми",submitEvidence:"Подай доказателства",awaiting:"чака проверка",
+  evidenceFor:"Доказателства за",before:"Снимка ПРЕДИ",after:"Снимка СЛЕД",
+  gpsNote:"Ще запише реалната ти локация при подаване (с разрешение) — иначе зоната на мисията.",submit:"Подай за валидация",
+  adminBanner:"Ти си <b>администратор на платформата</b>. Прегледай доказателствата — одобрението освобождава награди и записва ефекта.",
+  reviewQueue:"Опашка за валидация",evidence:"Доказателства",noBefore:"няма преди",noAfter:"няма след",approve:"Одобри",reject:"Отхвърли",queueEmpty:"Опашката е празна.",
+  totals:"Общо за платформата",validated:"валидирани",audit:"Всички мисии и история",noMissions:"Още няма мисии.",
+  danger:"Опасна зона",reset:"Изтрий всички данни",resetConfirm:"Да изтрия ли всички данни на прототипа?",
+  ledgerBanner:"<b>Регистърът на Еко Койни</b> — всяко движение е вътрешен запис. Реални пари не се движат в платформата (ескроу модел). Тегленето е изключено в пилота.",
+  ledgerEntries:"EC записи",noEntries:"Още няма записи — първо финансирай мисия.",thTime:"Време",thAccount:"Сметка",thType:"Тип",thNote:"Бележка",kcxp:"Карма Койни и XP",
+  footer:"Прототипът работи изцяло в твоя браузър (localStorage). Нулиране — от таб Админ. Създадено с Claude — v0.4.",
+  demoDoer:"Демо доброволец",target:"цел",claimed:"поета",fundedToast:"финансирана — вече е на картата",validAmount:"Въведи валидна сума",
+  capturing:"Записвам GPS…",submitted:"Доказателствата са подадени с GPS",rewardsReleased:"валидирана — наградите са освободени",levelUp:"ново ниво",rejected:"отхвърлена"},
+ fr:{tagline:"Prototype MVP v0.4 — paiements fictifs, données locales",
+  nav:{Map:"Carte",Patron:"Mécène",Doer:"Volontaire",Admin:"Admin",Ledger:"Registre"},
+  zones:{Z1:"Sofia — Borisova Gradina",Z2:"Sofia — Vitosha",Z3:"Plovdiv — Maritsa",Z4:"Varna — Asparuhovo"},
+  status:{Available:"Ouverte",Claimed:"Prise",Submitted:"En attente",Validated:"Validée",Rejected:"Rejetée"},
+  mapBanner:"La <b>Carte Globale</b> — chaque mission en direct. Filtrez par statut, cliquez une zone ou un point. Les halos verts sont des <b>zones nettoyées vérifiées</b>, dimensionnées par l'impact réel.",
+  cleanedAreas:"Zones nettoyées",style:"Style",styleSoft:"GreenVibe doux",styleFresh:"Couleurs vives",styleClassic:"Classique",
+  mapNote:"Zones et positions approximatives (pilote) · crédits de carte en texte seul",
+  zoneClick:"Cliquez une zone sur la carte pour voir ses missions et son impact.",
+  missions:"missions",cleaned:"nettoyées",kgVerified:"kg vérifiés",
+  patronBanner:"Vous êtes <b>Val (Mécène)</b>. Financez un nettoyage → il devient une mission sur la carte → un Volontaire l'exécute → la validation convertit votre argent en impact vérifié.",
+  fundTitle:"Financer un nettoyage (paiement fictif)",zone:"Zone",amount:"Montant (BGN)",
+  convNote:"BGN × 0.51129 → EUR × 0.9975 (frais 0.25%) → EC · 10 EC = 1 kg",pay:"Payer et créer la mission",
+  yourImpact:"Votre impact vérifié",missionsValidated:"Missions validées",kgRemoved:"kg collectés",m2Cleaned:"m² nettoyés",co2Offset:"kg CO₂ évités",
+  onlyValidated:"Seules les missions validées comptent — voyez-les briller en vert sur la Carte.",
+  yourMissions:"Vos missions financées",nothing:"Rien ici pour l'instant.",
+  thId:"ID",thZone:"Zone",thEC:"EC",thKg:"Objectif kg",thStatus:"Statut",thDoer:"Volontaire",waitingDoer:"En attente d'un volontaire",
+  doerBanner:"Vous êtes <b>Maria (Volontaire)</b>",maturity:"Progression",xpNote:"L'XP ne vient que des missions validées",xpTo:"XP jusqu'à",maxLevel:"niveau maximum",
+  queue:"File des missions — ouvertes",myMissions:"Mes missions",claim:"Prendre",submitEvidence:"Soumettre les preuves",awaiting:"en attente",
+  evidenceFor:"Preuves pour",before:"Photo AVANT",after:"Photo APRÈS",
+  gpsNote:"Votre position réelle sera capturée à l'envoi (avec permission) — sinon la zone de la mission.",submit:"Soumettre pour validation",
+  adminBanner:"Vous êtes l'<b>administrateur</b>. Examinez les preuves — l'approbation libère les récompenses et crédite l'impact.",
+  reviewQueue:"File de validation",evidence:"Preuves",noBefore:"pas d'avant",noAfter:"pas d'après",approve:"Approuver",reject:"Rejeter",queueEmpty:"File vide.",
+  totals:"Totaux de la plateforme",validated:"validées",audit:"Toutes les missions et historique",noMissions:"Pas encore de missions.",
+  danger:"Zone dangereuse",reset:"Réinitialiser les données",resetConfirm:"Effacer toutes les données du prototype ?",
+  ledgerBanner:"Le <b>registre Eco Coin</b> — chaque mouvement est une écriture interne. Aucun argent réel ne circule (modèle séquestre). Le retrait est désactivé dans le pilote.",
+  ledgerEntries:"Écritures EC",noEntries:"Pas encore d'écritures — financez d'abord une mission.",thTime:"Heure",thAccount:"Compte",thType:"Type",thNote:"Note",kcxp:"Karma Coins et XP",
+  footer:"Le prototype fonctionne entièrement dans votre navigateur (localStorage). Réinitialisation via l'onglet Admin. Créé avec Claude — v0.4.",
+  demoDoer:"Volontaire démo",target:"objectif",claimed:"prise",fundedToast:"financée — visible sur la carte",validAmount:"Entrez un montant valide",
+  capturing:"Capture GPS…",submitted:"Preuves soumises avec GPS",rewardsReleased:"validée — récompenses libérées",levelUp:"niveau supérieur",rejected:"rejetée"},
+ de:{tagline:"MVP-Prototyp v0.4 — Testzahlungen, lokale Daten",
+  nav:{Map:"Karte",Patron:"Förderer",Doer:"Helfer",Admin:"Admin",Ledger:"Register"},
+  zones:{Z1:"Sofia — Borisova Gradina",Z2:"Sofia — Witoscha",Z3:"Plowdiw — Mariza",Z4:"Warna — Asparuhovo"},
+  status:{Available:"Offen",Claimed:"Übernommen",Submitted:"In Prüfung",Validated:"Validiert",Rejected:"Abgelehnt"},
+  mapBanner:"Die <b>globale Karte</b> — jede Mission live. Nach Status filtern, Zone oder Pin anklicken. Grüne Flächen sind <b>verifizierte gereinigte Bereiche</b>, skaliert nach realer Wirkung.",
+  cleanedAreas:"Gereinigte Bereiche",style:"Stil",styleSoft:"GreenVibe sanft",styleFresh:"Frische Farben",styleClassic:"Klassisch",
+  mapNote:"Zonen und Positionen sind Pilot-Näherungen · Kartenquellen nur als Text",
+  zoneClick:"Klicke eine Zone auf der Karte für ihre Missionen und Wirkung.",
+  missions:"Missionen",cleaned:"gereinigt",kgVerified:"kg verifiziert",
+  patronBanner:"Du bist <b>Val (Förderer)</b>. Finanziere eine Reinigung → sie wird zur Live-Mission auf der Karte → ein Helfer führt sie aus → die Validierung macht dein Geld zu verifizierter Wirkung.",
+  fundTitle:"Reinigung finanzieren (Testzahlung)",zone:"Zone",amount:"Betrag (BGN)",
+  convNote:"BGN × 0.51129 → EUR × 0.9975 (0,25% Gebühr) → EC · 10 EC = 1 kg",pay:"Zahlen & Mission starten",
+  yourImpact:"Deine verifizierte Wirkung",missionsValidated:"Validierte Missionen",kgRemoved:"kg gesammelt",m2Cleaned:"m² gereinigt",co2Offset:"kg CO₂ vermieden",
+  onlyValidated:"Nur validierte Missionen zählen — sieh sie grün auf der Karte leuchten.",
+  yourMissions:"Deine finanzierten Missionen",nothing:"Noch nichts hier.",
+  thId:"ID",thZone:"Zone",thEC:"EC",thKg:"Ziel kg",thStatus:"Status",thDoer:"Helfer",waitingDoer:"Wartet auf Helfer",
+  doerBanner:"Du bist <b>Maria (Helferin)</b>",maturity:"Entwicklung",xpNote:"XP gibt es nur für validierte Missionen",xpTo:"XP bis",maxLevel:"Maximalstufe erreicht",
+  queue:"Missionswarteschlange — offen",myMissions:"Meine Missionen",claim:"Übernehmen",submitEvidence:"Nachweise einreichen",awaiting:"in Prüfung",
+  evidenceFor:"Nachweise für",before:"Foto VORHER",after:"Foto NACHHER",
+  gpsNote:"Dein realer Standort wird beim Einreichen erfasst (mit Erlaubnis) — sonst die Missionszone.",submit:"Zur Validierung einreichen",
+  adminBanner:"Du bist der <b>Plattform-Admin</b>. Prüfe die Nachweise — Freigabe schüttet Belohnungen aus und verbucht die Wirkung.",
+  reviewQueue:"Validierungswarteschlange",evidence:"Nachweise",noBefore:"kein Vorher",noAfter:"kein Nachher",approve:"Freigeben",reject:"Ablehnen",queueEmpty:"Warteschlange leer.",
+  totals:"Plattform gesamt",validated:"validiert",audit:"Alle Missionen & Verlauf",noMissions:"Noch keine Missionen.",
+  danger:"Gefahrenzone",reset:"Alle Daten löschen",resetConfirm:"Alle Prototyp-Daten löschen?",
+  ledgerBanner:"Das <b>Eco-Coin-Register</b> — jede Bewegung ist ein interner Eintrag. Kein echtes Geld fließt in der Plattform (Treuhandmodell). Auszahlung im Pilot deaktiviert.",
+  ledgerEntries:"EC-Einträge",noEntries:"Noch keine Einträge — finanziere zuerst eine Mission.",thTime:"Zeit",thAccount:"Konto",thType:"Typ",thNote:"Notiz",kcxp:"Karma Coins & XP",
+  footer:"Der Prototyp läuft vollständig in deinem Browser (localStorage). Zurücksetzen im Admin-Tab. Erstellt mit Claude — v0.4.",
+  demoDoer:"Demo-Helfer",target:"Ziel",claimed:"übernommen",fundedToast:"finanziert — jetzt auf der Karte",validAmount:"Gültigen Betrag eingeben",
+  capturing:"GPS wird erfasst…",submitted:"Nachweise eingereicht mit GPS",rewardsReleased:"validiert — Belohnungen freigegeben",levelUp:"Stufenaufstieg",rejected:"abgelehnt"}
+};
+let LANG = localStorage.getItem("gvw_lang") || "bg";
+function t(k){ const d=I18N[LANG]||I18N.en; return (k in d? d[k] : (I18N.en[k] ?? k)); }
+function tn(group,k){ const d=I18N[LANG]||I18N.en; return (d[group]&&d[group][k]) || (I18N.en[group]&&I18N.en[group][k]) || k; }
+function setLang(l){ LANG=l; localStorage.setItem("gvw_lang",l); render(); }
+
+/* ===== State ===== */
 const DB_KEY = "gvw_proto_v0";
 let db = JSON.parse(localStorage.getItem(DB_KEY) || "null") || { ecLedger:[], missions:[], kc:{"Maria (Doer)":0}, seq:1 };
 if (db.xp === undefined) db.xp = { "Maria (Doer)": 0 };
 db.missions.forEach(m => {
   if (m.evidence && m.evidence.photo !== undefined && m.evidence.before === undefined) { m.evidence.before = null; m.evidence.after = m.evidence.photo; }
-  if (!m.loc) m.loc = randLoc(zoneByName(m.zone));   // v0.2 -> v0.3 migration: assign coordinates
+  if (!m.loc) m.loc = randLoc(zoneByName(m.zone));
 });
+function seedDemo(){
+  const specs = [
+    ["Sofia — Borisova Gradina","Validated",30],["Sofia — Borisova Gradina","Available",20],
+    ["Sofia — Vitosha Foothills","Claimed",25],["Plovdiv — Maritsa Riverbank","Validated",45],
+    ["Plovdiv — Maritsa Riverbank","Available",18],["Varna — Asparuhovo Beach","Submitted",22],
+    ["Varna — Asparuhovo Beach","Available",15]];
+  specs.forEach(([zone,status,bgn])=>{
+    const ec = bgnToEC(bgn), kg = ec / P.EC_PER_KG;
+    db.missions.push({ id:"GV-"+String(db.seq++).padStart(3,"0"), zone, ec:+ec.toFixed(2), kg:+kg.toFixed(2),
+      status, patron:"Demo Patron", doer: status==="Available"? null : "Demo Doer",
+      evidence:null, loc: randLoc(zoneByName(zone)), history:["Demo mission (seeded for preview)"] });
+  });
+  save();
+}
+if (db.missions.length === 0) seedDemo();
 function save(){ localStorage.setItem(DB_KEY, JSON.stringify(db)); }
-function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 3400); }
+function toast(m){ const el=document.getElementById("toast"); el.textContent=m; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"), 3400); }
 function fmt(n,d=2){ return Number(n).toLocaleString("en-US",{maximumFractionDigits:d,minimumFractionDigits:0}); }
 function ts(){ return new Date().toISOString().slice(0,16).replace("T"," "); }
 
 /* ===== Geo helpers ===== */
 function zoneByName(n){ return ZONES.find(z=>z.name===n) || ZONES[0]; }
+function zLabel(z){ return tn("zones", z.id); }
+function zLabelByName(name){ const z=ZONES.find(x=>x.name===name); return z? zLabel(z) : name; }
 function randLoc(z){
-  const t = Math.random()*2*Math.PI, d = Math.sqrt(Math.random())*z.r*0.75; // meters
-  return { lat: +(z.lat + (d*Math.cos(t))/111320).toFixed(6),
-           lng: +(z.lng + (d*Math.sin(t))/(111320*Math.cos(z.lat*Math.PI/180))).toFixed(6) };
+  const a = Math.random()*2*Math.PI, d = Math.sqrt(Math.random())*z.r*0.75;
+  return { lat:+(z.lat + (d*Math.cos(a))/111320).toFixed(6),
+           lng:+(z.lng + (d*Math.sin(a))/(111320*Math.cos(z.lat*Math.PI/180))).toFixed(6) };
 }
 function cleanedRadius(kg){ const area = kg / P.KG_PER_M2; return Math.max(35, Math.sqrt(area/Math.PI)); }
+function circlePoly(lat,lng,r,steps=48){
+  const ring=[]; for(let i=0;i<=steps;i++){ const a=2*Math.PI*i/steps;
+    ring.push([ lng + (r*Math.sin(a))/(111320*Math.cos(lat*Math.PI/180)), lat + (r*Math.cos(a))/111320 ]); }
+  return ring;
+}
 
 /* ===== Domain logic ===== */
 function bgnToEC(bgn){ return bgn * P.BGN_EUR * P.EUR_EC; }
 function levelFor(xp){ let L=LEVELS[0]; for(const l of LEVELS){ if(xp>=l.xp) L=l; } return L; }
 function nextLevel(xp){ return LEVELS.find(l=>l.xp>xp) || null; }
-
 function fundMission(zoneName, bgn){
   const ec = bgnToEC(bgn), kg = ec / P.EC_PER_KG, z = zoneByName(zoneName);
   const m = { id:"GV-"+String(db.seq++).padStart(3,"0"), zone:zoneName, ec:+ec.toFixed(2), kg:+kg.toFixed(2),
-              status:"Available", patron:"Val (Patron)", doer:null, evidence:null, loc: randLoc(z),
+              status:"Available", patron:"Val (Patron)", doer:null, evidence:null, loc:randLoc(z),
               history:[ts()+" — Funded with "+fmt(bgn)+" BGN → "+fmt(ec)+" EC (mock payment)"] };
   db.ecLedger.push({ ts:ts(), who:"Val (Patron)", type:"Funding", ec:m.ec, note:m.id+" · "+zoneName });
   db.missions.unshift(m); save(); return m;
 }
 function claim(id){ const m=get(id); m.status="Claimed"; m.doer="Maria (Doer)"; m.history.push(ts()+" — Claimed by Maria"); save(); }
 function submitEvidence(id, before, after, gps){
-  const m=get(id); m.status="Submitted";
-  m.evidence={ before, after, gps, ts:ts() };
+  const m=get(id); m.status="Submitted"; m.evidence={ before, after, gps, ts:ts() };
   m.history.push(ts()+" — Evidence submitted (before/after photos + GPS "+gps+")"); save();
 }
 function validate(id, ok){
   const m=get(id);
   if(ok){
     m.status="Validated";
-    const kc = Math.round(m.kg * P.KC_PER_KG + P.KC_MISSION_BONUS);
-    const xp = Math.round(P.XP_PER_MISSION + m.kg * P.XP_PER_KG);
+    const kc = Math.round(m.kg*P.KC_PER_KG + P.KC_MISSION_BONUS);
+    const xp = Math.round(P.XP_PER_MISSION + m.kg*P.XP_PER_KG);
     db.kc[m.doer]=(db.kc[m.doer]||0)+kc;
     const before = levelFor(db.xp[m.doer]||0);
     db.xp[m.doer]=(db.xp[m.doer]||0)+xp;
     const afterL = levelFor(db.xp[m.doer]);
     db.ecLedger.push({ ts:ts(), who:m.doer, type:"Redemption accrual", ec:m.ec, note:m.id+" validated → EC accrues to Doer (cash-out disabled in pilot)" });
-    m.history.push(ts()+" — Validated. +"+kc+" KC, +"+xp+" XP to "+m.doer+". Impact credited to "+m.patron);
+    m.history.push(ts()+" — Validated. +"+kc+" KC, +"+xp+" XP to "+m.doer);
     if(afterL.n>before.n){ m.history.push(ts()+" — "+m.doer+" leveled up: "+afterL.name); m._levelUp=afterL.name; }
   } else { m.status="Rejected"; m.history.push(ts()+" — Rejected by admin review"); }
   save();
@@ -163,136 +307,182 @@ function impactFor(filter){
 }
 
 /* ===== Views ===== */
-const VIEWS = ["Patron","Doer","Map","Admin","Ledger"];
-let view="Patron";
-let LMAP=null, PIN_LAYER=null, CLEAN_LAYER=null, SELZ=null;
+const VIEWS = ["Map","Patron","Doer","Admin","Ledger"];
+let view="Map", MAP=null, SELZ=null;
 const FILTERS = { Available:true, Claimed:true, Submitted:true, Validated:true, Rejected:false, cleaned:true };
+let MAPSTYLE = localStorage.getItem("gvw_mapstyle") || "soft";
+const MAP_STYLES = { soft:"https://tiles.openfreemap.org/styles/positron",
+                     vibe:"https://tiles.openfreemap.org/styles/bright",
+                     classic:"https://tiles.openfreemap.org/styles/liberty" };
 
-function nav(){ document.getElementById("nav").innerHTML = VIEWS.map(v=>`<button class="${v===view?'active':''}" onclick="go('${v}')">${v}</button>`).join(""); }
+const FLAGS = {
+ bg:`<svg width="26" height="18" viewBox="0 0 30 18"><rect width="30" height="6" fill="#fff"/><rect y="6" width="30" height="6" fill="#00966E"/><rect y="12" width="30" height="6" fill="#D62612"/></svg>`,
+ en:`<svg width="26" height="18" viewBox="0 0 30 18"><rect width="30" height="18" fill="#012169"/><path d="M0,0 30,18 M30,0 0,18" stroke="#fff" stroke-width="3.6"/><path d="M0,0 30,18 M30,0 0,18" stroke="#C8102E" stroke-width="1.6"/><path d="M15,0 V18 M0,9 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V18 M0,9 H30" stroke="#C8102E" stroke-width="3.4"/></svg>`,
+ fr:`<svg width="26" height="18" viewBox="0 0 30 18"><rect width="10" height="18" fill="#0055A4"/><rect x="10" width="10" height="18" fill="#fff"/><rect x="20" width="10" height="18" fill="#EF4135"/></svg>`,
+ de:`<svg width="26" height="18" viewBox="0 0 30 18"><rect width="30" height="6" fill="#000"/><rect y="6" width="30" height="6" fill="#DD0000"/><rect y="12" width="30" height="6" fill="#FFCE00"/></svg>`
+};
+function renderFlags(){
+  const c = document.getElementById("langflags"); if(!c) return;
+  c.innerHTML = Object.keys(FLAGS).map(l=>
+    `<button class="flagbtn ${l===LANG?'active':''}" onclick="setLang('${l}')" title="${l.toUpperCase()}">${FLAGS[l]}</button>`).join("");
+}
+function nav(){
+  document.getElementById("nav").innerHTML = VIEWS.map(v=>`<button class="${v===view?'active':''}" onclick="go('${v}')">${tn("nav",v)}</button>`).join("");
+  renderFlags();
+  const tg=document.querySelector("[data-i18n=tagline]"); if(tg) tg.textContent=t("tagline");
+  document.getElementById("foot").textContent = t("footer");
+}
 function go(v){ view=v; render(); }
-function pill(s){ return `<span class="pill s-${s}">${s}</span>`; }
-
+function pill(s){ return `<span class="pill s-${s}">${tn("status",s)}</span>`; }
 function missionTable(list, actions){
-  if(!list.length) return `<p class="muted">Nothing here yet.</p>`;
-  return `<table><tr><th>ID</th><th>Zone</th><th>EC</th><th>Target kg</th><th>Status</th><th>Doer</th><th></th></tr>`+
-    list.map(m=>`<tr><td>${m.id}</td><td>${m.zone}</td><td>${fmt(m.ec)}</td><td>${fmt(m.kg)}</td>
+  if(!list.length) return `<p class="muted">${t("nothing")}</p>`;
+  return `<table><tr><th>${t("thId")}</th><th>${t("thZone")}</th><th>EC</th><th>${t("thKg")}</th><th>${t("thStatus")}</th><th>${t("thDoer")}</th><th></th></tr>`+
+    list.map(m=>`<tr><td>${m.id}</td><td>${zLabelByName(m.zone)}</td><td>${fmt(m.ec)}</td><td>${fmt(m.kg)}</td>
       <td>${pill(m.status)}</td><td>${m.doer||"—"}</td><td>${actions?actions(m):""}</td></tr>`).join("")+`</table>`;
 }
 
-/* ---- Geographic Map view (Leaflet + OpenStreetMap) ---- */
+/* ---- Map (MapLibre GL + OpenFreeMap vector tiles) ---- */
 function mapView(){
   const fl = Object.keys(STATUS_COLOR).map(s=>
     `<label><input type="checkbox" ${FILTERS[s]?"checked":""} onchange="setFilter('${s}',this.checked)">
-     <span class="dot" style="background:${STATUS_COLOR[s]}"></span>${s}</label>`).join("");
+     <span class="dot" style="background:${STATUS_COLOR[s]}"></span>${tn("status",s)}</label>`).join("");
   return `
-  <div class="banner">The <b>Global Map</b> — live view of every mission. Filter by status, click a zone for its story, click a pin for mission details. Green glows are <b>verified cleaned areas</b>, sized by real impact.</div>
+  <div class="banner">${t("mapBanner")}</div>
   <div class="card">
     <div class="filters">${fl}
       <label><input type="checkbox" ${FILTERS.cleaned?"checked":""} onchange="setFilter('cleaned',this.checked)">
-      <span class="dot" style="background:#2e7d32;opacity:.4"></span>Cleaned areas</label>
-      <label style="margin-left:auto">Style
+      <span class="dot" style="background:#7fbf87;opacity:.5"></span>${t("cleanedAreas")}</label>
+      <label style="margin-left:auto">${t("style")}
         <select onchange="setMapStyle(this.value)" style="width:auto;padding:5px 8px">
-          <option value="soft" ${MAPSTYLE==="soft"?"selected":""}>GreenVibe soft</option>
-          <option value="vibe" ${MAPSTYLE==="vibe"?"selected":""}>Fresh colors</option>
-          <option value="classic" ${MAPSTYLE==="classic"?"selected":""}>Classic</option>
+          <option value="soft" ${MAPSTYLE==="soft"?"selected":""}>${t("styleSoft")}</option>
+          <option value="vibe" ${MAPSTYLE==="vibe"?"selected":""}>${t("styleFresh")}</option>
+          <option value="classic" ${MAPSTYLE==="classic"?"selected":""}>${t("styleClassic")}</option>
         </select></label>
     </div>
-    <div class="mapwrap"><div id="geomap"></div><div class="mapcredit">© OpenStreetMap contributors · © CARTO</div></div>
-    <p class="muted" style="margin-top:8px">Zones and mission positions are pilot approximations · map credits shown as text only</p>
+    <div class="mapwrap"><div id="geomap"></div><div class="mapcredit">© OpenStreetMap contributors · OpenFreeMap</div></div>
+    <p class="muted" style="margin-top:8px">${t("mapNote")}</p>
   </div>
   <div class="card" id="zonepanel">${zonePanelHTML()}</div>`;
 }
 function zonePanelHTML(){
-  if(!SELZ) return `<p class="muted">Click a zone circle on the map to see its missions and impact.</p>`;
+  if(!SELZ) return `<p class="muted">${t("zoneClick")}</p>`;
   const z = ZONES.find(x=>x.id===SELZ);
   const ms = db.missions.filter(m=>m.zone===z.name);
   const done = ms.filter(m=>m.status==="Validated");
   const kg = done.reduce((s,m)=>s+m.kg,0);
-  return `<h2>${z.name}</h2>
-    <span class="stat"><span class="v">${ms.length}</span><br><span class="l">missions</span></span>
-    <span class="stat"><span class="v">${done.length}</span><br><span class="l">cleaned</span></span>
-    <span class="stat"><span class="v">${fmt(kg,1)}</span><br><span class="l">kg verified</span></span>
+  return `<h2>${zLabel(z)}</h2>
+    <span class="stat"><span class="v">${ms.length}</span><br><span class="l">${t("missions")}</span></span>
+    <span class="stat"><span class="v">${done.length}</span><br><span class="l">${t("cleaned")}</span></span>
+    <span class="stat"><span class="v">${fmt(kg,1)}</span><br><span class="l">${t("kgVerified")}</span></span>
     <span class="stat"><span class="v">${fmt(kg/P.KG_PER_M2,0)}</span><br><span class="l">m²</span></span>
     ${missionTable(ms)}`;
 }
-function setFilter(k,v){ FILTERS[k]=v; drawPins(); }
-function selectZone(id){ SELZ=(SELZ===id?null:id); const p=document.getElementById("zonepanel"); if(p) p.innerHTML=zonePanelHTML(); }
-
-let MAPSTYLE = localStorage.getItem("gvw_mapstyle") || "soft";
-const MAP_TILES = {
-  soft:    { url:"https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",           cls:"tiles-soft" },
-  vibe:    { url:"https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", cls:"tiles-vibe" },
-  classic: { url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",                            cls:"" }
-};
-let TILE_LAYER=null;
-function addTiles(){ const c = MAP_TILES[MAPSTYLE] || MAP_TILES.soft;
-  return L.tileLayer(c.url, { maxZoom:19, className:c.cls }).addTo(LMAP); }
+function setFilter(k,v){ FILTERS[k]=v; if(MAP) refreshOverlayData(); }
 function setMapStyle(s){ MAPSTYLE=s; localStorage.setItem("gvw_mapstyle",s);
-  if(LMAP && TILE_LAYER){ LMAP.removeLayer(TILE_LAYER); TILE_LAYER=addTiles(); } }
-function initMap(){
-  LMAP = L.map("geomap", { attributionControl:false });
-  TILE_LAYER = addTiles();
-  const b = L.latLngBounds(ZONES.map(z=>[z.lat,z.lng]));
-  LMAP.fitBounds(b.pad(0.35));
-  ZONES.forEach(z=>{
-    const c = L.circle([z.lat,z.lng], { radius:z.r, color:"#2e7d32", weight:1.5, fillColor:"#66bb6a", fillOpacity:0.12 });
-    c.addTo(LMAP);
-    c.bindTooltip(z.name, {permanent:false, direction:"top"});
-    c.on("click", ()=>{ selectZone(z.id); LMAP.setView([z.lat,z.lng], 13); });
-  });
-  PIN_LAYER = L.layerGroup().addTo(LMAP);
-  CLEAN_LAYER = L.layerGroup().addTo(LMAP);
-  drawPins();
+  if(MAP){ MAP.setStyle(MAP_STYLES[s]||MAP_STYLES.soft); applyTint(); } }
+function selectZone(id){ SELZ=(SELZ===id?null:id); const p=document.getElementById("zonepanel"); if(p) p.innerHTML=zonePanelHTML(); }
+function applyTint(){ const w=document.querySelector(".mapwrap"); if(w) w.classList.toggle("tint-soft", MAPSTYLE==="soft"); }
+
+function missionGeoJSON(){
+  return { type:"FeatureCollection", features: db.missions
+    .filter(m=>m.loc && FILTERS[m.status])
+    .map(m=>({ type:"Feature", geometry:{type:"Point",coordinates:[m.loc.lng,m.loc.lat]},
+      properties:{ id:m.id, status:m.status, color:STATUS_COLOR[m.status]||"#999",
+        html:`<b>${m.id}</b> · ${tn("status",m.status)}<br>${zLabelByName(m.zone)}<br>${fmt(m.kg)} kg ${t("target")} · ${fmt(m.ec)} EC<br><span style="color:#6b7a6d">${m.doer||t("waitingDoer")}</span>` } })) };
 }
-function drawPins(){
-  if(!LMAP) return;
-  PIN_LAYER.clearLayers(); CLEAN_LAYER.clearLayers();
-  db.missions.forEach(m=>{
-    if(!m.loc || !FILTERS[m.status]) return;
-    const mk = L.circleMarker([m.loc.lat,m.loc.lng],
-      { radius:8, color:"#fff", weight:2, fillColor:STATUS_COLOR[m.status]||"#999", fillOpacity:1 });
-    mk.bindPopup(`<b>${m.id}</b> · ${m.status}<br>${m.zone}<br>${fmt(m.kg)} kg target · ${fmt(m.ec)} EC<br><span style="color:#6b7a6d">${m.doer? "Doer: "+m.doer : "Waiting for a Doer"}</span>`);
-    mk.addTo(PIN_LAYER);
+function cleanedGeoJSON(){
+  return { type:"FeatureCollection", features: FILTERS.cleaned ? db.missions
+    .filter(m=>m.status==="Validated" && m.loc)
+    .map(m=>({ type:"Feature", geometry:{type:"Polygon",coordinates:[circlePoly(m.loc.lat,m.loc.lng,cleanedRadius(m.kg))]}, properties:{} })) : [] };
+}
+function zonesGeoJSON(){
+  return { type:"FeatureCollection", features: ZONES.map(z=>({ type:"Feature",
+    geometry:{type:"Polygon",coordinates:[circlePoly(z.lat,z.lng,z.r)]}, properties:{ id:z.id } })) };
+}
+function applyMapLanguage(){
+  if(!MAP) return;
+  const style = MAP.getStyle(); if(!style||!style.layers) return;
+  style.layers.forEach(l=>{
+    if(l.type==="symbol" && l.layout && l.layout["text-field"]){
+      try{ MAP.setLayoutProperty(l.id, "text-field",
+        ["coalesce", ["get","name:"+LANG], ["get","name:latin"], ["get","name"]]); }catch(e){}
+    }
   });
-  if(FILTERS.cleaned){
-    db.missions.filter(m=>m.status==="Validated" && m.loc).forEach(m=>{
-      L.circle([m.loc.lat,m.loc.lng],
-        { radius: cleanedRadius(m.kg), color:"#2e7d32", weight:1, fillColor:"#2e7d32", fillOpacity:0.25, dashArray:"4 4" })
-       .bindTooltip(`✅ Cleaned: ${fmt(m.kg)} kg → ${fmt(m.kg/P.KG_PER_M2,0)} m²`).addTo(CLEAN_LAYER);
-    });
-  }
+}
+function addOverlays(){
+  if(!MAP) return;
+  if(!MAP.getSource("zones")) MAP.addSource("zones",{type:"geojson",data:zonesGeoJSON()});
+  if(!MAP.getSource("cleaned")) MAP.addSource("cleaned",{type:"geojson",data:cleanedGeoJSON()});
+  if(!MAP.getSource("pins")) MAP.addSource("pins",{type:"geojson",data:missionGeoJSON()});
+  if(!MAP.getLayer("zones-fill")) MAP.addLayer({id:"zones-fill",type:"fill",source:"zones",paint:{"fill-color":"#a5d6a7","fill-opacity":0.18}});
+  if(!MAP.getLayer("zones-line")) MAP.addLayer({id:"zones-line",type:"line",source:"zones",paint:{"line-color":"#81c784","line-width":1.5}});
+  if(!MAP.getLayer("cleaned-fill")) MAP.addLayer({id:"cleaned-fill",type:"fill",source:"cleaned",paint:{"fill-color":"#7fbf87","fill-opacity":0.35}});
+  if(!MAP.getLayer("pins-c")) MAP.addLayer({id:"pins-c",type:"circle",source:"pins",
+    paint:{"circle-radius":7,"circle-color":["get","color"],"circle-stroke-color":"#ffffff","circle-stroke-width":2}});
+  applyMapLanguage();
+}
+function refreshOverlayData(){
+  if(!MAP) return;
+  const s1=MAP.getSource("pins"), s2=MAP.getSource("cleaned"), s3=MAP.getSource("zones");
+  if(s1) s1.setData(missionGeoJSON());
+  if(s2) s2.setData(cleanedGeoJSON());
+  if(s3) s3.setData(zonesGeoJSON());
+}
+function initMap(){
+  const el = document.getElementById("geomap"); if(!el) return;
+  if(typeof maplibregl==="undefined"){ el.innerHTML='<p class="muted" style="padding:20px">Map library unavailable (offline?).</p>'; return; }
+  MAP = new maplibregl.Map({ container:"geomap", style: MAP_STYLES[MAPSTYLE]||MAP_STYLES.soft,
+    center:[25.35,42.72], zoom:6.3, attributionControl:false });
+  MAP.addControl(new maplibregl.NavigationControl({showCompass:false}), "top-left");
+  applyTint();
+  MAP.on("style.load", ()=>{ addOverlays(); });
+  MAP.on("click","pins-c", e=>{
+    const f=e.features && e.features[0]; if(!f) return;
+    new maplibregl.Popup({closeButton:true}).setLngLat(f.geometry.coordinates).setHTML(f.properties.html).addTo(MAP);
+  });
+  MAP.on("click","zones-fill", e=>{
+    const f=e.features && e.features[0]; if(!f) return;
+    if(e.features.length && MAP.queryRenderedFeatures(e.point,{layers:["pins-c"]}).length) return;
+    selectZone(f.properties.id);
+    const z=ZONES.find(x=>x.id===f.properties.id);
+    if(z) MAP.flyTo({center:[z.lng,z.lat], zoom:12.5});
+  });
+  MAP.on("mouseenter","pins-c",()=>MAP.getCanvas().style.cursor="pointer");
+  MAP.on("mouseleave","pins-c",()=>MAP.getCanvas().style.cursor="");
+  MAP.on("mouseenter","zones-fill",()=>MAP.getCanvas().style.cursor="pointer");
+  MAP.on("mouseleave","zones-fill",()=>MAP.getCanvas().style.cursor="");
 }
 
 /* ---- Patron ---- */
 function patronView(){
   const i = impactFor("Val (Patron)");
   return `
-  <div class="banner">You are <b>Val (Patron)</b>. Fund a cleanup → it becomes a live mission on the map → a Doer executes it → validation converts your money into verified impact below.</div>
+  <div class="banner">${t("patronBanner")}</div>
   <div class="row">
-    <div class="card"><h2>Fund a cleanup (mock payment)</h2>
-      <label>Zone</label><select id="fz">${ZONES.map(z=>`<option>${z.name}</option>`).join("")}</select>
-      <label>Amount (BGN)</label><input id="fa" type="number" value="25" min="5" step="5">
-      <div class="muted" style="margin-top:8px">BGN × ${P.BGN_EUR} → EUR × ${P.EUR_EC} (0.25% fee) → EC · ${P.EC_PER_KG} EC = 1 kg</div>
+    <div class="card"><h2>${t("fundTitle")}</h2>
+      <label>${t("zone")}</label><select id="fz">${ZONES.map(z=>`<option value="${z.name}">${zLabel(z)}</option>`).join("")}</select>
+      <label>${t("amount")}</label><input id="fa" type="number" value="25" min="5" step="5">
+      <div class="muted" style="margin-top:8px">${t("convNote")}</div>
       <div class="muted" id="fpreview"></div>
-      <button class="act" onclick="doFund()">Pay & spawn mission</button>
+      <button class="act" onclick="doFund()">${t("pay")}</button>
     </div>
-    <div class="card"><h2>Your verified impact</h2>
+    <div class="card"><h2>${t("yourImpact")}</h2>
       <div class="impact">
-        <div class="itile"><div class="v">${i.missions}</div><div class="l">Missions validated</div></div>
-        <div class="itile"><div class="v">${fmt(i.kg,1)}</div><div class="l">kg removed</div></div>
-        <div class="itile"><div class="v">${fmt(i.m2,0)}</div><div class="l">m² cleaned</div></div>
-        <div class="itile"><div class="v">${fmt(i.co2,1)}</div><div class="l">kg CO₂ offset</div></div>
+        <div class="itile"><div class="v">${i.missions}</div><div class="l">${t("missionsValidated")}</div></div>
+        <div class="itile"><div class="v">${fmt(i.kg,1)}</div><div class="l">${t("kgRemoved")}</div></div>
+        <div class="itile"><div class="v">${fmt(i.m2,0)}</div><div class="l">${t("m2Cleaned")}</div></div>
+        <div class="itile"><div class="v">${fmt(i.co2,1)}</div><div class="l">${t("co2Offset")}</div></div>
       </div>
-      <p class="muted">Only validated missions count — see them glow green on the <a href="#" onclick="go('Map');return false">Map</a>.</p>
+      <p class="muted">${t("onlyValidated")}</p>
     </div>
   </div>
-  <div class="card"><h2>Your funded missions</h2>${missionTable(db.missions.filter(m=>m.patron==="Val (Patron)"))}</div>`;
+  <div class="card"><h2>${t("yourMissions")}</h2>${missionTable(db.missions.filter(m=>m.patron==="Val (Patron)"))}</div>`;
 }
 function doFund(){
   const bgn = parseFloat(document.getElementById("fa").value);
-  if(!(bgn>0)) return toast("Enter a valid amount");
+  if(!(bgn>0)) return toast(t("validAmount"));
   const m = fundMission(document.getElementById("fz").value, bgn);
-  toast("Mission "+m.id+" funded: "+fmt(m.ec)+" EC → target "+fmt(m.kg)+" kg — now live on the map"); render();
+  toast(m.id+" "+t("fundedToast")); render();
 }
 
 /* ---- Doer ---- */
@@ -302,27 +492,27 @@ function doerView(){
   const avail = db.missions.filter(m=>m.status==="Available");
   const mine = db.missions.filter(m=>m.doer==="Maria (Doer)");
   return `
-  <div class="banner">You are <b>Maria (Doer)</b> · <span class="lvl">${L.name}</span> · ${db.kc["Maria (Doer)"]||0} KC</div>
-  <div class="card"><h2>Maturity progress</h2>
+  <div class="banner">${t("doerBanner")} · <span class="lvl">${L.name}</span> · ${db.kc["Maria (Doer)"]||0} KC</div>
+  <div class="card"><h2>${t("maturity")}</h2>
     <div class="xpbar"><div class="xpfill" style="width:${pctXP}%"></div></div>
-    <span class="muted">${xp} XP ${N? "· "+(N.xp-xp)+" XP to "+N.name : "· max level reached"} — XP comes only from validated missions</span></div>
-  <div class="card"><h2>Mission queue — available</h2>
-    ${missionTable(avail, m=>`<button class="sec" onclick="claim('${m.id}');toast('${m.id} claimed');render()">Claim</button>`)}</div>
-  <div class="card"><h2>My missions</h2>
+    <span class="muted">${xp} XP ${N? "· "+(N.xp-xp)+" "+t("xpTo")+" "+N.name : "· "+t("maxLevel")} — ${t("xpNote")}</span></div>
+  <div class="card"><h2>${t("queue")}</h2>
+    ${missionTable(avail, m=>`<button class="sec" onclick="claim('${m.id}');toast('${m.id} ${t("claimed")}');render()">${t("claim")}</button>`)}</div>
+  <div class="card"><h2>${t("myMissions")}</h2>
     ${missionTable(mine, m=> m.status==="Claimed" ?
-      `<button class="sec" onclick="openEvidence('${m.id}')">Submit evidence</button>` :
-      (m.status==="Submitted"?`<span class="muted">awaiting review</span>`:""))}</div>
-  <div class="card" id="evcard" style="display:none"><h2>Evidence for <span id="evid-id"></span></h2>
+      `<button class="sec" onclick="openEvidence('${m.id}')">${t("submitEvidence")}</button>` :
+      (m.status==="Submitted"?`<span class="muted">${t("awaiting")}</span>`:""))}</div>
+  <div class="card" id="evcard" style="display:none"><h2>${t("evidenceFor")} <span id="evid-id"></span></h2>
     <div class="row">
-      <div style="flex:1;min-width:220px"><label>BEFORE photo</label>
+      <div style="flex:1;min-width:220px"><label>${t("before")}</label>
         <input type="file" id="evbefore" accept="image/*" capture="environment" onchange="previewImg(this,'pv-b')">
         <img id="pv-b" class="preview" style="display:none"></div>
-      <div style="flex:1;min-width:220px"><label>AFTER photo</label>
+      <div style="flex:1;min-width:220px"><label>${t("after")}</label>
         <input type="file" id="evafter" accept="image/*" capture="environment" onchange="previewImg(this,'pv-a')">
         <img id="pv-a" class="preview" style="display:none"></div>
     </div>
-    <label>GPS</label><div class="muted" id="evgps">Will capture your real location on submit (with permission) — falls back to mission zone.</div>
-    <button class="act" onclick="doSubmit()">Submit for validation</button></div>`;
+    <label>GPS</label><div class="muted">${t("gpsNote")}</div>
+    <button class="act" onclick="doSubmit()">${t("submit")}</button></div>`;
 }
 let evTarget=null;
 function openEvidence(id){ evTarget=id; document.getElementById("evcard").style.display="block"; document.getElementById("evid-id").textContent=id; window.scrollTo(0,document.body.scrollHeight); }
@@ -345,10 +535,10 @@ async function doSubmit(){
   const id = evTarget;
   const before = await readAsData(document.getElementById("evbefore"));
   const after  = await readAsData(document.getElementById("evafter"));
-  toast("Capturing GPS…");
+  toast(t("capturing"));
   const gps = await getGPS(id);
   submitEvidence(id, before, after, gps);
-  evTarget=null; toast("Evidence submitted with GPS "+gps); render();
+  evTarget=null; toast(t("submitted")+" "+gps); render();
 }
 
 /* ---- Admin ---- */
@@ -356,46 +546,45 @@ function adminView(){
   const q = db.missions.filter(m=>m.status==="Submitted");
   const i = impactFor(null);
   return `
-  <div class="banner">You are the <b>platform admin</b>. Review submitted evidence — approve to release rewards and credit impact.</div>
-  <div class="card"><h2>Validation review queue (${q.length})</h2>
-    ${q.length? `<table><tr><th>ID</th><th>Zone</th><th>Doer</th><th>Evidence</th><th>GPS</th><th>Actions</th></tr>`+
-      q.map(m=>`<tr><td>${m.id}</td><td>${m.zone}</td><td>${m.doer}</td>
-        <td>${m.evidence&&m.evidence.before?`<img class="evid" src="${m.evidence.before}" title="before">`:`<span class="muted">no before</span> `}
-            ${m.evidence&&m.evidence.after?`<img class="evid" src="${m.evidence.after}" title="after">`:`<span class="muted">no after</span>`}</td>
+  <div class="banner">${t("adminBanner")}</div>
+  <div class="card"><h2>${t("reviewQueue")} (${q.length})</h2>
+    ${q.length? `<table><tr><th>${t("thId")}</th><th>${t("thZone")}</th><th>${t("thDoer")}</th><th>${t("evidence")}</th><th>GPS</th><th></th></tr>`+
+      q.map(m=>`<tr><td>${m.id}</td><td>${zLabelByName(m.zone)}</td><td>${m.doer}</td>
+        <td>${m.evidence&&m.evidence.before?`<img class="evid" src="${m.evidence.before}">`:`<span class="muted">${t("noBefore")}</span> `}
+            ${m.evidence&&m.evidence.after?`<img class="evid" src="${m.evidence.after}">`:`<span class="muted">${t("noAfter")}</span>`}</td>
         <td class="muted">${m.evidence? m.evidence.gps+" · "+m.evidence.ts : "—"}</td>
-        <td><button class="sec" onclick="doValidate('${m.id}',true)">Approve</button>
-            <button class="sec danger" onclick="doValidate('${m.id}',false)">Reject</button></td></tr>`).join("")+`</table>`
-      : `<p class="muted">Queue is empty.</p>`}</div>
-  <div class="card"><h2>Platform totals</h2>
-    <span class="stat"><span class="v">${db.missions.length}</span><br><span class="l">missions</span></span>
-    <span class="stat"><span class="v">${i.missions}</span><br><span class="l">validated</span></span>
-    <span class="stat"><span class="v">${fmt(i.kg,1)}</span><br><span class="l">kg verified</span></span>
-    <span class="stat"><span class="v">${fmt(i.m2,0)}</span><br><span class="l">m² cleaned</span></span>
-    <span class="stat"><span class="v">${fmt(i.co2,1)}</span><br><span class="l">kg CO₂</span></span>
-  </div>
-  <div class="card"><h2>All missions & audit trail</h2>
-    ${db.missions.map(m=>`<h3>${m.id} · ${m.zone} ${pill(m.status)}</h3>
-      <div class="muted">${m.history.map(h=>"· "+h).join("<br>")}</div>`).join("") || '<p class="muted">No missions yet.</p>'}</div>
-  <div class="card"><h2>Danger zone</h2>
-    <button class="sec danger" onclick="if(confirm('Wipe all prototype data?')){localStorage.removeItem(DB_KEY);location.reload()}">Reset all data</button></div>`;
+        <td><button class="sec" onclick="doValidate('${m.id}',true)">${t("approve")}</button>
+            <button class="sec danger" onclick="doValidate('${m.id}',false)">${t("reject")}</button></td></tr>`).join("")+`</table>`
+      : `<p class="muted">${t("queueEmpty")}</p>`}</div>
+  <div class="card"><h2>${t("totals")}</h2>
+    <span class="stat"><span class="v">${db.missions.length}</span><br><span class="l">${t("missions")}</span></span>
+    <span class="stat"><span class="v">${i.missions}</span><br><span class="l">${t("validated")}</span></span>
+    <span class="stat"><span class="v">${fmt(i.kg,1)}</span><br><span class="l">${t("kgVerified")}</span></span>
+    <span class="stat"><span class="v">${fmt(i.m2,0)}</span><br><span class="l">m²</span></span>
+    <span class="stat"><span class="v">${fmt(i.co2,1)}</span><br><span class="l">CO₂</span></span></div>
+  <div class="card"><h2>${t("audit")}</h2>
+    ${db.missions.map(m=>`<h3>${m.id} · ${zLabelByName(m.zone)} ${pill(m.status)}</h3>
+      <div class="muted">${m.history.map(h=>"· "+h).join("<br>")}</div>`).join("") || `<p class="muted">${t("noMissions")}</p>`}</div>
+  <div class="card"><h2>${t("danger")}</h2>
+    <button class="sec danger" onclick="if(confirm(t('resetConfirm'))){localStorage.removeItem(DB_KEY);location.reload()}">${t("reset")}</button></div>`;
 }
 function doValidate(id, ok){
   validate(id, ok);
   const m = get(id);
-  if(ok && m._levelUp){ toast(id+" validated — rewards released. "+m.doer+" leveled up: "+m._levelUp+"!"); delete m._levelUp; save(); }
-  else toast(ok? id+" validated — rewards released" : id+" rejected");
+  if(ok && m._levelUp){ toast(id+" "+t("rewardsReleased")+". "+m.doer+" — "+t("levelUp")+": "+m._levelUp+"!"); delete m._levelUp; save(); }
+  else toast(ok? id+" "+t("rewardsReleased") : id+" "+t("rejected"));
   render();
 }
 
 /* ---- Ledger ---- */
 function ledgerView(){
   return `
-  <div class="banner">The <b>Eco Coin ledger</b> — every movement is an internal ledger entry. No real money moves inside the platform (escrow model). Cash-out is disabled in the pilot.</div>
-  <div class="card"><h2>EC ledger entries</h2>
-    ${db.ecLedger.length? `<table><tr><th>Time</th><th>Account</th><th>Type</th><th>EC</th><th>Note</th></tr>`+
+  <div class="banner">${t("ledgerBanner")}</div>
+  <div class="card"><h2>${t("ledgerEntries")}</h2>
+    ${db.ecLedger.length? `<table><tr><th>${t("thTime")}</th><th>${t("thAccount")}</th><th>${t("thType")}</th><th>EC</th><th>${t("thNote")}</th></tr>`+
       db.ecLedger.map(e=>`<tr><td class="muted">${e.ts}</td><td>${e.who}</td><td>${e.type}</td><td>${fmt(e.ec)}</td><td class="muted">${e.note}</td></tr>`).join("")+`</table>`
-      : `<p class="muted">No entries yet — fund a mission first.</p>`}</div>
-  <div class="card"><h2>Karma Coins & XP</h2>
+      : `<p class="muted">${t("noEntries")}</p>`}</div>
+  <div class="card"><h2>${t("kcxp")}</h2>
     ${Object.keys(db.kc).map(k=>{
       const L=levelFor(db.xp[k]||0);
       return `<span class="stat"><span class="v">${db.kc[k]}</span><br><span class="l">${k} · KC</span></span>
@@ -404,14 +593,14 @@ function ledgerView(){
 }
 
 function render(){
-  if(LMAP){ LMAP.remove(); LMAP=null; }
+  if(MAP){ try{MAP.remove();}catch(e){} MAP=null; }
   nav();
   const m = document.getElementById("main");
-  m.innerHTML = view==="Patron"?patronView() : view==="Doer"?doerView() : view==="Map"?mapView() : view==="Admin"?adminView() : ledgerView();
-  if(view==="Map" && typeof L!=="undefined") initMap();
+  m.innerHTML = view==="Map"?mapView() : view==="Patron"?patronView() : view==="Doer"?doerView() : view==="Admin"?adminView() : ledgerView();
+  if(view==="Map") initMap();
   const fa = document.getElementById("fa");
   if(fa){ const upd=()=>{ const b=parseFloat(fa.value)||0, ec=bgnToEC(b);
-    document.getElementById("fpreview").innerHTML = `<b>${fmt(b)} BGN → ${fmt(ec)} EC → ${fmt(ec/P.EC_PER_KG)} kg target</b>`; };
+    document.getElementById("fpreview").innerHTML = `<b>${fmt(b)} BGN → ${fmt(ec)} EC → ${fmt(ec/P.EC_PER_KG)} kg</b>`; };
     fa.addEventListener("input",upd); upd(); }
 }
 render();
