@@ -52,6 +52,10 @@ td{padding:8px;border-bottom:1px solid #eef2ee;vertical-align:top}
 .lvl{display:inline-block;background:var(--dark);color:#fff;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700}
 .preview{max-width:160px;max-height:110px;border-radius:8px;border:2px solid var(--light);display:block;margin-top:6px}
 #geomap{height:540px;border-radius:10px;z-index:1}
+.mapwrap{position:relative}
+.mapcredit{position:absolute;bottom:6px;right:10px;z-index:1000;font-size:10.5px;color:#546e57;background:rgba(255,255,255,.78);padding:2px 8px;border-radius:6px;pointer-events:none}
+.tiles-soft{filter:sepia(.2) hue-rotate(55deg) saturate(.8) brightness(1.05)}
+.tiles-vibe{filter:saturate(1.08) hue-rotate(6deg)}
 .filters{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:13px}
 .filters label{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:#212121;font-weight:600;cursor:pointer}
 .filters input{width:auto}
@@ -186,9 +190,15 @@ function mapView(){
     <div class="filters">${fl}
       <label><input type="checkbox" ${FILTERS.cleaned?"checked":""} onchange="setFilter('cleaned',this.checked)">
       <span class="dot" style="background:#2e7d32;opacity:.4"></span>Cleaned areas</label>
+      <label style="margin-left:auto">Style
+        <select onchange="setMapStyle(this.value)" style="width:auto;padding:5px 8px">
+          <option value="soft" ${MAPSTYLE==="soft"?"selected":""}>GreenVibe soft</option>
+          <option value="vibe" ${MAPSTYLE==="vibe"?"selected":""}>Fresh colors</option>
+          <option value="classic" ${MAPSTYLE==="classic"?"selected":""}>Classic</option>
+        </select></label>
     </div>
-    <div id="geomap"></div>
-    <p class="muted" style="margin-top:8px">Map data © OpenStreetMap contributors · Zones and mission positions are pilot approximations</p>
+    <div class="mapwrap"><div id="geomap"></div><div class="mapcredit">© OpenStreetMap contributors · © CARTO</div></div>
+    <p class="muted" style="margin-top:8px">Zones and mission positions are pilot approximations · map credits shown as text only</p>
   </div>
   <div class="card" id="zonepanel">${zonePanelHTML()}</div>`;
 }
@@ -208,10 +218,20 @@ function zonePanelHTML(){
 function setFilter(k,v){ FILTERS[k]=v; drawPins(); }
 function selectZone(id){ SELZ=(SELZ===id?null:id); const p=document.getElementById("zonepanel"); if(p) p.innerHTML=zonePanelHTML(); }
 
+let MAPSTYLE = localStorage.getItem("gvw_mapstyle") || "soft";
+const MAP_TILES = {
+  soft:    { url:"https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",           cls:"tiles-soft" },
+  vibe:    { url:"https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", cls:"tiles-vibe" },
+  classic: { url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",                            cls:"" }
+};
+let TILE_LAYER=null;
+function addTiles(){ const c = MAP_TILES[MAPSTYLE] || MAP_TILES.soft;
+  return L.tileLayer(c.url, { maxZoom:19, className:c.cls }).addTo(LMAP); }
+function setMapStyle(s){ MAPSTYLE=s; localStorage.setItem("gvw_mapstyle",s);
+  if(LMAP && TILE_LAYER){ LMAP.removeLayer(TILE_LAYER); TILE_LAYER=addTiles(); } }
 function initMap(){
-  LMAP = L.map("geomap");
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-    { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(LMAP);
+  LMAP = L.map("geomap", { attributionControl:false });
+  TILE_LAYER = addTiles();
   const b = L.latLngBounds(ZONES.map(z=>[z.lat,z.lng]));
   LMAP.fitBounds(b.pad(0.35));
   ZONES.forEach(z=>{
