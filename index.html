@@ -6,128 +6,245 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <title>GreenVibe.Wave — Clean the planet, one square meter at a time</title>
 <style>
-:root{--green:#2e7d32;--dark:#0f3d13;--mid:#1b5e20;--light:#e8f3e8;--accent:#7bd389;--grey:#5f6a6a}
+:root{--green:#2e7d32;--dark:#0f3d13;--mid:#1b5e20;--leaf:#76b043;--mist:#a5d6a7;--cloud:#edf6ee;--canvas:#f6f7fa;--slate:#5f6a6a}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Century Gothic","CenturyGothic","Apple Gothic",AppleGothic,"URW Gothic L","Didact Gothic",Verdana,sans-serif;font-size:13px;color:#1c2b1e;background:#fbfdfb;overflow-x:hidden}
+body{font-family:"Century Gothic","CenturyGothic","Apple Gothic",AppleGothic,"URW Gothic L","Didact Gothic",Verdana,sans-serif;font-size:13px;color:#1c2b1e;background:var(--canvas);overflow-x:hidden}
 a{text-decoration:none}
+.nav{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:16px 30px;z-index:10;gap:12px;flex-wrap:wrap}
+.nav img{height:40px}
+.nright{display:flex;align-items:center;gap:14px}
+.nav a.demo{color:#fff;font-weight:700;font-size:14px;border:1.5px solid rgba(255,255,255,.45);padding:9px 20px;border-radius:999px;transition:background .2s}
+.nav a.demo:hover{background:rgba(255,255,255,.15)}
+.flags{display:flex;gap:6px}
+.flagbtn{padding:0;border:2px solid rgba(255,255,255,.4);border-radius:5px;cursor:pointer;background:none;line-height:0;opacity:.75;transition:all .15s}
+.flagbtn:hover{opacity:1;transform:translateY(-1px)}
+.flagbtn.active{border-color:#fff;opacity:1;box-shadow:0 0 8px rgba(255,255,255,.45)}
+.flagbtn svg{display:block;border-radius:3px;width:22px;height:15px}
 .hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  background:radial-gradient(ellipse at 30% 20%,#2e7d32 0%,#1b5e20 45%,#0f3d13 100%);color:#fff;padding:60px 24px;position:relative}
-.hero::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:80px;background:#fbfdfb;
-  clip-path:ellipse(60% 100% at 50% 100%)}
-.wave{font-size:15px;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;animation:fadeUp .8s ease both}
-h1{font-size:clamp(40px,7vw,76px);font-weight:800;line-height:1.05;animation:fadeUp .8s .15s ease both}
-h1 .w{color:var(--accent)}
-.motto{font-size:clamp(17px,2.4vw,23px);margin-top:22px;opacity:.92;max-width:640px;animation:fadeUp .8s .3s ease both}
-.ctas{margin-top:44px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s .45s ease both}
-.btn{padding:16px 34px;border-radius:999px;font-weight:700;font-size:17px;transition:transform .2s,box-shadow .2s}
+  background:radial-gradient(ellipse at 30% 20%,#2e7d32 0%,#1b5e20 45%,#0f3d13 100%);color:#fff;padding:80px 24px 60px;position:relative}
+.hero::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:80px;background:var(--canvas);clip-path:ellipse(60% 100% at 50% 100%)}
+.hero-logo{width:min(380px,72vw);margin-bottom:10px;animation:fadeUp .8s ease both}
+h1{font-size:clamp(34px,6.4vw,68px);font-weight:800;line-height:1.08;animation:fadeUp .8s .15s ease both}
+h1 .w{color:var(--mist)}
+.motto{font-size:clamp(16px,2.2vw,21px);margin-top:22px;opacity:.92;max-width:640px;animation:fadeUp .8s .3s ease both}
+.ctas{margin-top:42px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s .45s ease both}
+.btn{padding:15px 32px;border-radius:999px;font-weight:700;font-size:16px;transition:transform .2s,box-shadow .2s}
 .btn-primary{background:#fff;color:var(--dark);box-shadow:0 8px 30px rgba(0,0,0,.35)}
 .btn-ghost{border:2px solid rgba(255,255,255,.5);color:#fff}
 .btn:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(0,0,0,.4)}
-section{max-width:1080px;margin:0 auto;padding:80px 24px}
-.kicker{color:var(--green);font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:13px;text-align:center}
-h2{font-size:clamp(28px,4vw,40px);text-align:center;margin:12px 0 14px;color:var(--dark)}
-.lead{text-align:center;color:var(--grey);font-size:18px;max-width:720px;margin:0 auto 50px;line-height:1.6}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px}
-.step{background:#fff;border-radius:18px;padding:34px 28px;box-shadow:0 6px 24px rgba(15,61,19,.08);transition:transform .25s}
+section{max-width:1080px;margin:0 auto;padding:76px 24px}
+.kicker{color:var(--green);font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:12px;text-align:center}
+h2{font-size:clamp(26px,3.8vw,38px);text-align:center;margin:12px 0 14px;color:var(--dark)}
+.lead{text-align:center;color:var(--slate);font-size:16px;max-width:720px;margin:0 auto 48px;line-height:1.6}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
+.step{background:#fff;border:1px solid #e9edea;border-radius:16px;padding:32px 28px;box-shadow:0 4px 18px rgba(20,40,25,.06);transition:transform .25s}
 .step:hover{transform:translateY(-6px)}
-.step .n{width:52px;height:52px;border-radius:50%;background:var(--light);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:18px}
-.step h3{color:var(--dark);font-size:20px;margin-bottom:10px}
-.step p{color:var(--grey);line-height:1.6;font-size:15px}
-.chain{background:linear-gradient(120deg,var(--mid),var(--green));border-radius:24px;color:#fff;padding:54px 30px;text-align:center}
+.step .n{width:50px;height:50px;border-radius:50%;background:var(--cloud);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
+.step h3{color:var(--dark);font-size:18px;margin-bottom:10px}
+.step p{color:var(--slate);line-height:1.6;font-size:14px}
+.chain{background:linear-gradient(120deg,var(--mid),var(--green));border-radius:22px;color:#fff;padding:52px 30px;text-align:center}
 .chain h2{color:#fff}
-.chain .flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:34px;font-weight:700}
-.chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:14px 20px;border-radius:14px;min-width:118px}
-.chip .v{font-size:23px}
-.chip .l{font-size:11.5px;opacity:.8;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
-.arr{opacity:.7;font-size:20px}
-.chain .note{margin-top:26px;font-size:13.5px;opacity:.75}
-.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
-.role{border-radius:18px;padding:36px 30px;color:#fff;transition:transform .25s;position:relative;overflow:hidden}
+.chain .flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:32px;font-weight:700}
+.chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:13px 19px;border-radius:14px;min-width:114px}
+.chip .v{font-size:21px}
+.chip .l{font-size:10.5px;opacity:.8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.arr{opacity:.7;font-size:19px}
+.chain .note{margin-top:24px;font-size:12.5px;opacity:.75}
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.role{border-radius:16px;padding:34px 30px;color:#fff;transition:transform .25s;position:relative;overflow:hidden}
 .role:hover{transform:translateY(-6px)}
-.role h3{font-size:24px;margin-bottom:12px}
-.role p{line-height:1.65;font-size:15px;opacity:.95}
+.role h3{font-size:22px;margin-bottom:12px}
+.role p{line-height:1.65;font-size:14px;opacity:.95}
 .r1{background:linear-gradient(140deg,#1e6b24,#2e9e38)} .r2{background:linear-gradient(140deg,#0e5a63,#18919e)} .r3{background:linear-gradient(140deg,#7a4d12,#c07c1e)}
-.role .tag{position:absolute;top:18px;right:20px;font-size:36px;opacity:.35}
-.demo{background:var(--light);border-radius:24px;text-align:center;padding:64px 30px}
-.demo p{color:var(--grey);max-width:640px;margin:14px auto 34px;font-size:17px;line-height:1.6}
+.role .tag{position:absolute;top:18px;right:20px;font-size:34px;opacity:.35}
+.demo2{background:var(--cloud);border:1px solid var(--mist);border-radius:22px;text-align:center;padding:60px 30px}
+.demo2 p{color:var(--slate);max-width:640px;margin:14px auto 32px;font-size:16px;line-height:1.6}
 .btn-green{background:var(--green);color:#fff;box-shadow:0 8px 26px rgba(46,125,50,.35)}
-footer{background:var(--dark);color:rgba(255,255,255,.75);text-align:center;padding:34px 20px;font-size:13.5px}
-footer a{color:rgba(255,255,255,.45);font-size:12px}
+footer{background:var(--dark);color:rgba(255,255,255,.75);text-align:center;padding:32px 20px;font-size:12.5px}
+footer a{color:rgba(255,255,255,.45);font-size:11.5px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
 .reveal.on{opacity:1;transform:none}
-
-.nav{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:16px 30px;z-index:10}
-.nav img{height:40px}
-.nav a{color:#fff;font-weight:700;font-size:14px;border:1.5px solid rgba(255,255,255,.45);padding:9px 20px;border-radius:999px;transition:background .2s}
-.nav a:hover{background:rgba(255,255,255,.15)}
-.hero-logo{width:min(380px,72vw);margin-bottom:10px;animation:fadeUp .8s ease both}
+.locked #teaser{display:block!important}
+.locked .nav,.locked .hero:not(#teaser .hero),.locked .sec,.locked footer{display:none}
+.locked body>*:not(#teaser){display:none}
 </style>
 </head>
 <body>
+<script>
+(function(){try{
+  var q=new URLSearchParams(location.search);
+  if(q.get("k")==="wave2026"){ localStorage.setItem("gvw_gate","1"); history.replaceState(null,"",location.pathname); }
+  if(location.protocol!=="file:" && !localStorage.getItem("gvw_gate")) document.documentElement.classList.add("locked");
+}catch(e){}})();
+</script>
+<div id="teaser" style="display:none">
+  <div class="hero" style="min-height:100vh">
+    <img class="hero-logo" src="assets/logo-dark.png" alt="GreenVibe.Wave">
+    <h1 data-t="tzH">Something green is coming.</h1>
+    <p class="motto" data-t="tzP">A platform where funding, action and community meet — and every cleaned square meter is traceable, photographed and celebrated. We are preparing the wave.</p>
+    <p class="motto" style="margin-top:14px;font-weight:700" data-t="tzS">Opening soon.</p>
+    <div style="margin-top:34px" class="flags" id="flags2"></div>
+  </div>
+</div>
 
-<div class="nav"><img src="assets/logo-dark.png" alt="GreenVibe.Wave"><a href="app/index.html">Live demo</a></div>
+
+<div class="nav">
+  <img src="assets/logo-dark.png" alt="GreenVibe.Wave">
+  <div class="nright">
+    <div class="flags" id="lflags"></div>
+    <a class="demo" href="app/index.html" data-t="navDemo">Live demo</a>
+  </div>
+</div>
+
 <div class="hero">
   <img class="hero-logo" src="assets/logo-dark.png" alt="GreenVibe.Wave">
-  <h1>Clean the planet,<br>one square <span class="w">meter</span> at a time.</h1>
-  <p class="motto">The platform where every donated lev becomes a real, verified cleanup — funded by Patrons, executed by Doers, grown by Ambassadors.</p>
+  <h1><span data-t="h1a">Clean the planet,</span><br><span class="w" data-t="h1b">one square meter at a time.</span></h1>
+  <p class="motto" data-t="motto">The platform where every donated lev becomes a real, verified cleanup — funded by Patrons, executed by Doers, grown by Ambassadors.</p>
   <div class="ctas">
-    <a class="btn btn-primary" href="app/index.html">Try the live demo →</a>
-    <a class="btn btn-ghost" href="#how">How it works</a>
+    <a class="btn btn-primary" href="app/index.html" data-t="cta1">Try the live demo →</a>
+    <a class="btn btn-ghost" href="#how" data-t="cta2">How it works</a>
   </div>
 </div>
 
 <section id="how">
-  <div class="kicker">How it works</div>
-  <h2>From money to verified impact — in one loop</h2>
-  <p class="lead">No anonymous donations disappearing into reports. Every contribution becomes a mission on the map, and every mission ends with photo, GPS and community-verified proof.</p>
+  <div class="kicker" data-t="howK">How it works</div>
+  <h2 data-t="howH">From money to verified impact — in one loop</h2>
+  <p class="lead" data-t="howL">No anonymous donations disappearing into reports. Every contribution becomes a mission on the map, and every mission ends with photo, GPS and community-verified proof.</p>
   <div class="steps">
-    <div class="step reveal"><div class="n">💚</div><h3>1 · Fund</h3><p>A Patron funds a cleanup in a zone they care about. The payment converts into Eco Coins and spawns a live mission — visible to everyone on the map.</p></div>
-    <div class="step reveal"><div class="n">🧤</div><h3>2 · Clean</h3><p>A Doer claims the mission, does the cleanup, and submits before &amp; after photos with GPS evidence straight from the field.</p></div>
-    <div class="step reveal"><div class="n">✅</div><h3>3 · Verify &amp; reward</h3><p>Evidence is validated. The Doer earns Karma Coins and levels up; the Patron sees exactly what their money achieved — in kilograms, square meters and CO₂.</p></div>
+    <div class="step reveal"><div class="n">💚</div><h3 data-t="s1h">1 · Fund</h3><p data-t="s1p">A Patron funds a cleanup in a zone they care about. The payment converts into Eco Coins and spawns a live mission — visible to everyone on the map.</p></div>
+    <div class="step reveal"><div class="n">🧤</div><h3 data-t="s2h">2 · Clean</h3><p data-t="s2p">A Doer claims the mission, does the cleanup, and submits before & after photos with GPS evidence straight from the field.</p></div>
+    <div class="step reveal"><div class="n">✅</div><h3 data-t="s3h">3 · Verify & reward</h3><p data-t="s3p">Evidence is validated. The Doer earns Karma Coins and levels up; the Patron sees exactly what their money achieved — in kilograms, square meters and CO₂.</p></div>
   </div>
 </section>
 
 <section>
   <div class="chain reveal">
-    <h2>Every cent is traceable</h2>
+    <h2 data-t="chH">Every cent is traceable</h2>
     <div class="flow">
-      <div class="chip"><div class="v">25 BGN</div><div class="l">Funding</div></div><div class="arr">→</div>
-      <div class="chip"><div class="v">12.75</div><div class="l">Eco Coins</div></div><div class="arr">→</div>
-      <div class="chip"><div class="v">1.28 kg</div><div class="l">Trash removed</div></div><div class="arr">→</div>
-      <div class="chip"><div class="v">122 m²</div><div class="l">Area cleaned</div></div><div class="arr">→</div>
-      <div class="chip"><div class="v">3.8 kg</div><div class="l">CO₂ offset</div></div>
+      <div class="chip"><div class="v">25 BGN</div><div class="l" data-t="c1">Funding</div></div><div class="arr">→</div>
+      <div class="chip"><div class="v">12.75</div><div class="l" data-t="c2">Eco Coins</div></div><div class="arr">→</div>
+      <div class="chip"><div class="v">1.28 kg</div><div class="l" data-t="c3">Trash removed</div></div><div class="arr">→</div>
+      <div class="chip"><div class="v">122 m²</div><div class="l" data-t="c4">Area cleaned</div></div><div class="arr">→</div>
+      <div class="chip"><div class="v">3.8 kg</div><div class="l" data-t="c5">CO₂ offset</div></div>
     </div>
-    <div class="note">Science-based conversion model with published parameters — the same engine runs live in the demo.</div>
+    <div class="note" data-t="chN">Science-based conversion model with published parameters — the same engine runs live in the demo.</div>
   </div>
 </section>
 
 <section>
-  <div class="kicker">Three ways to join</div>
-  <h2>A role for everyone who cares</h2>
-  <p class="lead">Whether you give your money, your time or your voice — your contribution is visible, verified and rewarded.</p>
+  <div class="kicker" data-t="roK">Three ways to join</div>
+  <h2 data-t="roH">A role for everyone who cares</h2>
+  <p class="lead" data-t="roL">Whether you give your money, your time or your voice — your contribution is visible, verified and rewarded.</p>
   <div class="roles">
-    <div class="role r1 reveal"><div class="tag">💚</div><h3>Patrons</h3><p>Fund cleanups in the places you love. Watch your impact grow on your personal dashboard — missions, kilograms, square meters, CO₂ — and download your verified impact report.</p></div>
-    <div class="role r2 reveal"><div class="tag">🧤</div><h3>Doers</h3><p>Turn your energy into visible change. Claim missions near you, earn Karma Coins and XP, level up from First Steps to Wave Maker, and build your reputation as a verified eco-hero.</p></div>
-    <div class="role r3 reveal"><div class="tag">📣</div><h3>Ambassadors</h3><p>Grow the movement. Bring in new Patrons and Doers, track your network's real-world impact, and earn recognition — and rewards — for every verified conversion.</p></div>
+    <div class="role r1 reveal"><div class="tag">💚</div><h3 data-t="r1h">Patrons</h3><p data-t="r1p">Fund cleanups in the places you love. Watch your impact grow on your personal dashboard — missions, kilograms, square meters, CO₂ — and download your verified impact report.</p></div>
+    <div class="role r2 reveal"><div class="tag">🧤</div><h3 data-t="r2h">Doers</h3><p data-t="r2p">Turn your energy into visible change. Claim missions near you, earn Karma Coins and XP, level up from First Steps to Wave Maker, and build your reputation as a verified eco-hero.</p></div>
+    <div class="role r3 reveal"><div class="tag">📣</div><h3 data-t="r3h">Ambassadors</h3><p data-t="r3p">Grow the movement. Bring in new Patrons and Doers, track your network's real-world impact, and earn recognition — and rewards — for every verified conversion.</p></div>
   </div>
 </section>
 
 <section>
-  <div class="demo reveal">
-    <div class="kicker">See it yourself</div>
-    <h2>The mission loop is already working</h2>
-    <p>This is a live interactive prototype: fund a mission as a Patron, claim and complete it as a Doer, validate it as an admin — and watch the impact numbers appear. Your clicks stay in your browser.</p>
-    <a class="btn btn-green" href="app/index.html">Open the live demo →</a>
+  <div class="demo2 reveal">
+    <div class="kicker" data-t="deK">See it yourself</div>
+    <h2 data-t="deH">The mission loop is already working</h2>
+    <p data-t="deP">This is a live interactive prototype: fund a mission as a Patron, claim and complete it as a Doer, validate it as an admin — and watch the impact numbers appear. Your clicks stay in your browser.</p>
+    <a class="btn btn-green" href="app/index.html" data-t="deB">Open the live demo →</a>
   </div>
 </section>
 
 <footer>
-  GreenVibe.Wave — a community-powered platform for verified environmental cleanups.<br>
-  In development, 2026 · <a href="status/">build status</a>
+  <span data-t="ftr">GreenVibe.Wave — a community-powered platform for verified environmental cleanups.</span><br>
+  <span data-t="ftr2">In development, 2026</span> · <a href="status/" data-t="ftr3">build status</a>
 </footer>
 
 <script>
+const LT = {
+ en:{tzH:"Something green is coming.",tzP:"A platform where funding, action and community meet — and every cleaned square meter is traceable, photographed and celebrated. We are preparing the wave.",tzS:"Opening soon.",navDemo:"Live demo",h1a:"Clean the planet,",h1b:"one square meter at a time.",
+  motto:"The platform where every donated lev becomes a real, verified cleanup — funded by Patrons, executed by Doers, grown by Ambassadors.",
+  cta1:"Try the live demo →",cta2:"How it works",howK:"How it works",howH:"From money to verified impact — in one loop",
+  howL:"No anonymous donations disappearing into reports. Every contribution becomes a mission on the map, and every mission ends with photo, GPS and community-verified proof.",
+  s1h:"1 · Fund",s1p:"A Patron funds a cleanup in a zone they care about. The payment converts into Eco Coins and spawns a live mission — visible to everyone on the map.",
+  s2h:"2 · Clean",s2p:"A Doer claims the mission, does the cleanup, and submits before & after photos with GPS evidence straight from the field.",
+  s3h:"3 · Verify & reward",s3p:"Evidence is validated. The Doer earns Karma Coins and levels up; the Patron sees exactly what their money achieved — in kilograms, square meters and CO₂.",
+  chH:"Every cent is traceable",c1:"Funding",c2:"Eco Coins",c3:"Trash removed",c4:"Area cleaned",c5:"CO₂ offset",
+  chN:"Science-based conversion model with published parameters — the same engine runs live in the demo.",
+  roK:"Three ways to join",roH:"A role for everyone who cares",
+  roL:"Whether you give your money, your time or your voice — your contribution is visible, verified and rewarded.",
+  r1h:"Patrons",r1p:"Fund cleanups in the places you love. Watch your impact grow on your personal dashboard — missions, kilograms, square meters, CO₂ — and download your verified impact report.",
+  r2h:"Doers",r2p:"Turn your energy into visible change. Claim missions near you, earn Karma Coins and XP, level up from First Steps to Wave Maker, and build your reputation as a verified eco-hero.",
+  r3h:"Ambassadors",r3p:"Grow the movement. Bring in new Patrons and Doers, track your network's real-world impact, and earn recognition — and rewards — for every verified conversion.",
+  deK:"See it yourself",deH:"The mission loop is already working",
+  deP:"This is a live interactive prototype: fund a mission as a Patron, claim and complete it as a Doer, validate it as an admin — and watch the impact numbers appear. Your clicks stay in your browser.",
+  deB:"Open the live demo →",ftr:"GreenVibe.Wave — a community-powered platform for verified environmental cleanups.",ftr2:"In development, 2026",ftr3:"build status"},
+ bg:{tzH:"Задава се нещо зелено.",tzP:"Платформа, където финансиране, действие и общност се срещат — и всеки почистен квадратен метър е проследим, заснет и отпразнуван. Подготвяме вълната.",tzS:"Скоро отваряме.",navDemo:"Живо демо",h1a:"Чистим планетата —",h1b:"квадратен метър по квадратен метър.",
+  motto:"Платформата, в която всеки дарен лев се превръща в реално, проверено почистване — финансирано от Патрони, изпълнено от Доброволци, разраснато от Посланици.",
+  cta1:"Пробвай живото демо →",cta2:"Как работи",howK:"Как работи",howH:"От пари до проверен ефект — в един цикъл",
+  howL:"Без анонимни дарения, изчезващи в отчети. Всеки принос става мисия на картата, а всяка мисия завършва със снимка, GPS и потвърдено от общността доказателство.",
+  s1h:"1 · Финансирай",s1p:"Патрон финансира почистване в зона, която му е скъпа. Плащането се превръща в Еко Койни и ражда жива мисия — видима за всички на картата.",
+  s2h:"2 · Почисти",s2p:"Доброволец поема мисията, прави почистването и подава снимки преди и след, с GPS доказателство направо от терена.",
+  s3h:"3 · Провери и награди",s3p:"Доказателствата се валидират. Доброволецът печели Карма Койни и се качва в нивата; Патронът вижда точно какво постигнаха парите му — в килограми, квадратни метри и CO₂.",
+  chH:"Всяка стотинка е проследима",c1:"Финансиране",c2:"Еко Койни",c3:"Събран боклук",c4:"Почистена площ",c5:"Спестен CO₂",
+  chN:"Научно обоснован модел с публикувани параметри — същият двигател работи на живо в демото.",
+  roK:"Три начина да участваш",roH:"Роля за всеки, на когото му пука",
+  roL:"Независимо дали даваш пари, време или глас — приносът ти е видим, проверен и възнаграден.",
+  r1h:"Патрони",r1p:"Финансирай почиствания в местата, които обичаш. Гледай как ефектът ти расте в личното табло — мисии, килограми, квадратни метри, CO₂ — и свали своя проверен отчет.",
+  r2h:"Доброволци",r2p:"Превърни енергията си във видима промяна. Поемай мисии наблизо, печели Карма Койни и XP, качвай се от First Steps до Wave Maker и градѝ репутация на проверен еко-герой.",
+  r3h:"Посланици",r3p:"Разраствай движението. Довеждай нови Патрони и Доброволци, следи реалния ефект на мрежата си и получавай признание — и награди — за всяка верифицирана конверсия.",
+  deK:"Виж го сам",deH:"Мисийният цикъл вече работи",
+  deP:"Това е живо интерактивно демо: финансирай мисия като Патрон, поеми я и я завърши като Доброволец, валидирай я като админ — и гледай как числата на ефекта се появяват. Кликовете ти остават в твоя браузър.",
+  deB:"Отвори живото демо →",ftr:"GreenVibe.Wave — общностна платформа за проверени еко почиствания.",ftr2:"В разработка, 2026",ftr3:"статус на билда"},
+ fr:{tzH:"Quelque chose de vert arrive.",tzP:"Une plateforme où financement, action et communauté se rencontrent — chaque mètre carré nettoyé est traçable, photographié et célébré. Nous préparons la vague.",tzS:"Ouverture prochaine.",navDemo:"Démo live",h1a:"Nettoyons la planète,",h1b:"un mètre carré à la fois.",
+  motto:"La plateforme où chaque lev donné devient un nettoyage réel et vérifié — financé par les Mécènes, exécuté par les Volontaires, développé par les Ambassadeurs.",
+  cta1:"Essayez la démo live →",cta2:"Comment ça marche",howK:"Comment ça marche",howH:"De l'argent à l'impact vérifié — en une boucle",
+  howL:"Pas de dons anonymes disparaissant dans des rapports. Chaque contribution devient une mission sur la carte, et chaque mission se termine par une photo, un GPS et une preuve vérifiée par la communauté.",
+  s1h:"1 · Financer",s1p:"Un Mécène finance un nettoyage dans une zone qui lui tient à cœur. Le paiement se convertit en Eco Coins et crée une mission en direct — visible par tous sur la carte.",
+  s2h:"2 · Nettoyer",s2p:"Un Volontaire prend la mission, effectue le nettoyage et soumet des photos avant/après avec preuve GPS directement du terrain.",
+  s3h:"3 · Vérifier et récompenser",s3p:"Les preuves sont validées. Le Volontaire gagne des Karma Coins et monte de niveau ; le Mécène voit exactement ce que son argent a accompli — en kilos, mètres carrés et CO₂.",
+  chH:"Chaque centime est traçable",c1:"Financement",c2:"Eco Coins",c3:"Déchets retirés",c4:"Surface nettoyée",c5:"CO₂ évité",
+  chN:"Modèle de conversion scientifique aux paramètres publiés — le même moteur tourne en direct dans la démo.",
+  roK:"Trois façons de participer",roH:"Un rôle pour chacun",
+  roL:"Que vous donniez votre argent, votre temps ou votre voix — votre contribution est visible, vérifiée et récompensée.",
+  r1h:"Mécènes",r1p:"Financez des nettoyages dans les lieux que vous aimez. Suivez votre impact sur votre tableau de bord — missions, kilos, mètres carrés, CO₂ — et téléchargez votre rapport vérifié.",
+  r2h:"Volontaires",r2p:"Transformez votre énergie en changement visible. Prenez des missions près de chez vous, gagnez des Karma Coins et de l'XP, montez de First Steps à Wave Maker.",
+  r3h:"Ambassadeurs",r3p:"Faites grandir le mouvement. Amenez de nouveaux Mécènes et Volontaires, suivez l'impact réel de votre réseau et soyez récompensé pour chaque conversion vérifiée.",
+  deK:"Voyez par vous-même",deH:"La boucle de mission fonctionne déjà",
+  deP:"C'est un prototype interactif en direct : financez une mission, prenez-la et terminez-la, validez-la — et regardez les chiffres d'impact apparaître. Vos clics restent dans votre navigateur.",
+  deB:"Ouvrir la démo live →",ftr:"GreenVibe.Wave — une plateforme communautaire pour des nettoyages vérifiés.",ftr2:"En développement, 2026",ftr3:"statut du build"},
+ de:{tzH:"Etwas Grünes kommt.",tzP:"Eine Plattform, auf der Finanzierung, Aktion und Gemeinschaft zusammenkommen — jeder gereinigte Quadratmeter ist nachvollziehbar, fotografiert und gefeiert. Wir bereiten die Welle vor.",tzS:"Bald geht es los.",navDemo:"Live-Demo",h1a:"Wir reinigen den Planeten —",h1b:"Quadratmeter für Quadratmeter.",
+  motto:"Die Plattform, auf der jeder gespendete Lev zu einer echten, verifizierten Reinigung wird — finanziert von Förderern, ausgeführt von Helfern, verbreitet von Botschaftern.",
+  cta1:"Live-Demo testen →",cta2:"So funktioniert es",howK:"So funktioniert es",howH:"Vom Geld zur verifizierten Wirkung — in einem Kreislauf",
+  howL:"Keine anonymen Spenden, die in Berichten verschwinden. Jeder Beitrag wird zur Mission auf der Karte, und jede Mission endet mit Foto, GPS und community-verifiziertem Nachweis.",
+  s1h:"1 · Finanzieren",s1p:"Ein Förderer finanziert eine Reinigung in einer Zone, die ihm wichtig ist. Die Zahlung wird zu Eco Coins und erzeugt eine Live-Mission — für alle sichtbar auf der Karte.",
+  s2h:"2 · Reinigen",s2p:"Ein Helfer übernimmt die Mission, reinigt und reicht Vorher-Nachher-Fotos mit GPS-Nachweis direkt vom Einsatzort ein.",
+  s3h:"3 · Verifizieren & belohnen",s3p:"Die Nachweise werden validiert. Der Helfer verdient Karma Coins und steigt auf; der Förderer sieht genau, was sein Geld bewirkt hat — in Kilogramm, Quadratmetern und CO₂.",
+  chH:"Jeder Cent ist nachvollziehbar",c1:"Finanzierung",c2:"Eco Coins",c3:"Müll entfernt",c4:"Fläche gereinigt",c5:"CO₂ vermieden",
+  chN:"Wissenschaftlich fundiertes Umrechnungsmodell mit veröffentlichten Parametern — derselbe Motor läuft live in der Demo.",
+  roK:"Drei Wege mitzumachen",roH:"Eine Rolle für alle, denen es wichtig ist",
+  roL:"Ob du Geld, Zeit oder deine Stimme gibst — dein Beitrag ist sichtbar, verifiziert und wird belohnt.",
+  r1h:"Förderer",r1p:"Finanziere Reinigungen an Orten, die du liebst. Sieh deine Wirkung im persönlichen Dashboard wachsen — Missionen, Kilogramm, Quadratmeter, CO₂ — und lade deinen verifizierten Bericht herunter.",
+  r2h:"Helfer",r2p:"Verwandle deine Energie in sichtbare Veränderung. Übernimm Missionen in deiner Nähe, verdiene Karma Coins und XP, steige von First Steps bis Wave Maker auf.",
+  r3h:"Botschafter",r3p:"Lass die Bewegung wachsen. Bringe neue Förderer und Helfer, verfolge die reale Wirkung deines Netzwerks und werde für jede verifizierte Konversion belohnt.",
+  deK:"Sieh es selbst",deH:"Der Missionskreislauf funktioniert bereits",
+  deP:"Dies ist ein interaktiver Live-Prototyp: finanziere eine Mission, übernimm und beende sie, validiere sie — und sieh zu, wie die Wirkungszahlen erscheinen. Deine Klicks bleiben in deinem Browser.",
+  deB:"Live-Demo öffnen →",ftr:"GreenVibe.Wave — eine Community-Plattform für verifizierte Umweltreinigungen.",ftr2:"In Entwicklung, 2026",ftr3:"Build-Status"}
+};
+const LFLAGS = {
+ bg:'<svg viewBox="0 0 30 18"><rect width="30" height="6" fill="#fff"/><rect y="6" width="30" height="6" fill="#00966E"/><rect y="12" width="30" height="6" fill="#D62612"/></svg>',
+ en:'<svg viewBox="0 0 30 18"><rect width="30" height="18" fill="#012169"/><path d="M0,0 30,18 M30,0 0,18" stroke="#fff" stroke-width="3.6"/><path d="M0,0 30,18 M30,0 0,18" stroke="#C8102E" stroke-width="1.6"/><path d="M15,0 V18 M0,9 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V18 M0,9 H30" stroke="#C8102E" stroke-width="3.4"/></svg>',
+ fr:'<svg viewBox="0 0 30 18"><rect width="10" height="18" fill="#0055A4"/><rect x="10" width="10" height="18" fill="#fff"/><rect x="20" width="10" height="18" fill="#EF4135"/></svg>',
+ de:'<svg viewBox="0 0 30 18"><rect width="30" height="6" fill="#000"/><rect y="6" width="30" height="6" fill="#DD0000"/><rect y="12" width="30" height="6" fill="#FFCE00"/></svg>'
+};
+let LG = localStorage.getItem("gvw_lang") || "en";
+function lset(l){ LG=l; localStorage.setItem("gvw_lang",l); lapply(); }
+function flags2(){ const el=document.getElementById("flags2"); if(!el) return;
+  el.innerHTML=["bg","en","fr","de"].map(l=>`<button class="flagbtn ${l===LG?'active':''}" onclick="lset('${l}')">${LFLAGS[l]}</button>`).join(""); }
+function lapply(){
+  const d = LT[LG]||LT.en;
+  document.querySelectorAll("[data-t]").forEach(el=>{ const k=el.getAttribute("data-t"); if(d[k]) el.textContent=d[k]; });
+  document.getElementById("lflags").innerHTML = Object.keys(LFLAGS).map(l=>
+    `<button class="flagbtn ${l===LG?'active':''}" onclick="lset('${l}')" title="${l.toUpperCase()}">${LFLAGS[l]}</button>`).join("");  flags2();
+}
+lapply();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("on")}),{threshold:.15});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 </script>
