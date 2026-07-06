@@ -4,19 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/png" href="../assets/favicon.png">
-<title>GreenVibe.Wave — MVP Prototype v0.4</title>
+<title>GreenVibe.Wave — MVP Prototype v0.5</title>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <style>
 :root{--green:#2e7d32;--dark:#1b5e20;--light:#e8f3e8;--amber:#b47d00;--red:#c0392b;--grey:#6b7a6d}
 *{box-sizing:border-box}
 body{font-family:"Century Gothic","CenturyGothic","Apple Gothic",AppleGothic,"URW Gothic L","Didact Gothic",Verdana,sans-serif;font-size:13px;margin:0;background:#f4f7f4;color:#212121}
-header{background:linear-gradient(120deg,var(--dark),var(--green));color:#fff;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-header h1{margin:0;font-size:18px}
-header .tag{font-size:10px;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:999px;margin-left:10px;vertical-align:middle}
-.hright{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header{background:#0d2410;color:#fff;padding:0;display:block}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 28px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.08)}
+.mainbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;padding:18px 28px;border-bottom:3px solid #76b043}
+header .tag{font-size:10px;background:rgba(255,255,255,.14);padding:3px 10px;border-radius:999px}
 nav{display:flex;gap:6px;flex-wrap:wrap}
-nav button{border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;background:rgba(255,255,255,.15);color:#fff;font-family:inherit}
+nav button{border:none;padding:10px 19px;border-radius:9px;font-size:13.5px;font-weight:700;cursor:pointer;background:rgba(255,255,255,.15);color:#fff;font-family:inherit}
 nav button.active{background:#fff;color:var(--dark)}
 .langsel{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:8px;padding:7px 10px;font-weight:700;font-size:12px;font-family:inherit}
 .langsel option{color:#212121}
@@ -24,7 +24,8 @@ nav button.active{background:#fff;color:var(--dark)}
 .flagbtn{padding:0;border:2px solid rgba(255,255,255,.35);border-radius:5px;cursor:pointer;background:none;line-height:0;opacity:.75;transition:all .15s}
 .flagbtn:hover{opacity:1;transform:translateY(-1px)}
 .flagbtn.active{border-color:#fff;opacity:1;box-shadow:0 0 8px rgba(255,255,255,.45)}
-.flagbtn svg{display:block;border-radius:3px}
+.flagbtn svg{display:block;border-radius:2.5px;width:21px;height:15px}
+.flags{gap:6px}
 main{max-width:1100px;margin:0 auto;padding:22px 26px}
 .card{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 h2{font-size:14px;color:var(--dark);margin:0 0 12px}
@@ -72,10 +73,13 @@ footer{text-align:center;color:var(--grey);font-size:10.5px;padding:16px}
 </head>
 <body>
 <header>
-  <h1 style="display:flex;align-items:center;gap:12px"><a href="../" title="Home"><img src="../assets/logo-dark.png" alt="GreenVibe.Wave" style="height:36px;display:block"></a><span class="tag" data-i18n="tagline"></span></h1>
-  <div class="hright">
-    <nav id="nav"></nav>
+  <div class="topbar">
+    <span class="tag" data-i18n="tagline"></span>
     <div class="flags" id="langflags" title="Language"></div>
+  </div>
+  <div class="mainbar">
+    <a href="../" title="Home"><img src="../assets/logo-dark.png" alt="GreenVibe.Wave" style="height:54px;display:block"></a>
+    <nav id="nav"></nav>
   </div>
 </header>
 <main id="main"></main>
@@ -100,7 +104,7 @@ const STATUS_COLOR = { Available:"#6fa8d6", Claimed:"#b493d6", Submitted:"#e8b86
 
 /* ===== i18n ===== */
 const I18N = {
- en:{tagline:"MVP Prototype v0.4 — mock payments, local data",
+ en:{tagline:"MVP Prototype v0.5 — mock payments, local data",
   nav:{Map:"Map",Patron:"Patron",Doer:"Doer",Admin:"Admin",Ledger:"Ledger"},
   zones:{Z1:"Sofia — Borisova Gradina",Z2:"Sofia — Vitosha Foothills",Z3:"Plovdiv — Maritsa Riverbank",Z4:"Varna — Asparuhovo Beach"},
   status:{Available:"Available",Claimed:"Claimed",Submitted:"Submitted",Validated:"Validated",Rejected:"Rejected"},
@@ -126,10 +130,10 @@ const I18N = {
   danger:"Danger zone",reset:"Reset all data",resetConfirm:"Wipe all prototype data?",
   ledgerBanner:"The <b>Eco Coin ledger</b> — every movement is an internal ledger entry. No real money moves inside the platform (escrow model). Cash-out is disabled in the pilot.",
   ledgerEntries:"EC ledger entries",noEntries:"No entries yet — fund a mission first.",thTime:"Time",thAccount:"Account",thType:"Type",thNote:"Note",kcxp:"Karma Coins & XP",
-  footer:"Prototype runs entirely in your browser (localStorage). Reset data from the Admin tab. Built with Claude — v0.4.",
+  footer:"Prototype runs entirely in your browser (localStorage). Reset data from the Admin tab. Built with Claude — v0.5.",
   demoDoer:"Demo Doer",target:"target",claimed:"claimed",fundedToast:"funded — now live on the map",validAmount:"Enter a valid amount",
-  capturing:"Capturing GPS…",submitted:"Evidence submitted with GPS",rewardsReleased:"validated — rewards released",levelUp:"leveled up",rejected:"rejected"},
- bg:{tagline:"MVP Прототип v0.4 — тестови плащания, локални данни",
+  capturing:"Capturing GPS…",submitted:"Evidence submitted with GPS",rewardsReleased:"validated — rewards released",levelUp:"leveled up",rejected:"rejected",regTitle:"Become a Patron",regIntro:"Four quick steps — and every lev you give becomes a verified cleanup.",stepOf:"Step {0} of 4",yourName:"Your name",yourEmail:"Email",next:"Continue",back:"Back",verifyTitle:"Confirm your email",verifyNote:"We sent a code to your email. (Prototype: the code is shown below.)",codeLabel:"Verification code",wrongCode:"Wrong code — try again.",chooseTier:"Choose how you support",freeTier:"Freedom Rider — free",freeTierDesc:"Start free: fund one-time cleanups whenever you wish.",perMonth:"BGN/month",litersMo:"L bags / month",skipFree:"Continue free",pickZones:"Your favourite zones",pickZonesNote:"Missions from your plan will be created here first.",finish:"Create my account",welcome:"Welcome to the wave",memberTier:"Patron tier",lifetime:"lifetime EC",memberSince:"Patron since",toNextTier:"EC to",yourPlan:"Your membership",noPlan:"No monthly plan — you support with one-time missions.",nextBilling:"Next billing",runCycle:"Run monthly cycle (demo)",cycleDone:"Monthly cycle executed — new mission funded from your plan",changePlan:"Change plan",cancelPlan:"Cancel plan",cancelConfirm:"Cancel your monthly plan? Your tier and history remain.",planCancelled:"Plan cancelled. You can re-subscribe anytime.",planChanged:"Plan changed",profile:"Profile & settings",favZones:"Favourite zones",saveProfile:"Save changes",saved:"Saved",downloadReport:"Download impact report",reportTitle:"Verified Impact Report",generatedFor:"Generated for",closeAccount:"Close account (Forget me)",closeWarn:"GDPR right to erasure: your profile and personal data are deleted; completed missions remain anonymised for platform integrity.",closeConfirm1:"Delete your account and personal data?",closeConfirm2:"This cannot be undone. Continue?",accountClosed:"Account closed. Your personal data was erased — thank you for the impact you leave behind.",formerPatron:"Former Patron",tierLabel:"Tier",selected:"Selected",choose:"Choose"},
+ bg:{tagline:"MVP Прототип v0.5 — тестови плащания, локални данни",
   nav:{Map:"Карта",Patron:"Патрон",Doer:"Доброволец",Admin:"Админ",Ledger:"Регистър"},
   zones:{Z1:"София — Борисова градина",Z2:"София — Витоша",Z3:"Пловдив — Марица",Z4:"Варна — Аспарухово"},
   status:{Available:"Отворена",Claimed:"Поета",Submitted:"Чака проверка",Validated:"Валидирана",Rejected:"Отхвърлена"},
@@ -155,10 +159,10 @@ const I18N = {
   danger:"Опасна зона",reset:"Изтрий всички данни",resetConfirm:"Да изтрия ли всички данни на прототипа?",
   ledgerBanner:"<b>Регистърът на Еко Койни</b> — всяко движение е вътрешен запис. Реални пари не се движат в платформата (ескроу модел). Тегленето е изключено в пилота.",
   ledgerEntries:"EC записи",noEntries:"Още няма записи — първо финансирай мисия.",thTime:"Време",thAccount:"Сметка",thType:"Тип",thNote:"Бележка",kcxp:"Карма Койни и XP",
-  footer:"Прототипът работи изцяло в твоя браузър (localStorage). Нулиране — от таб Админ. Създадено с Claude — v0.4.",
+  footer:"Прототипът работи изцяло в твоя браузър (localStorage). Нулиране — от таб Админ. Създадено с Claude — v0.5.",
   demoDoer:"Демо доброволец",target:"цел",claimed:"поета",fundedToast:"финансирана — вече е на картата",validAmount:"Въведи валидна сума",
-  capturing:"Записвам GPS…",submitted:"Доказателствата са подадени с GPS",rewardsReleased:"валидирана — наградите са освободени",levelUp:"ново ниво",rejected:"отхвърлена"},
- fr:{tagline:"Prototype MVP v0.4 — paiements fictifs, données locales",
+  capturing:"Записвам GPS…",submitted:"Доказателствата са подадени с GPS",rewardsReleased:"валидирана — наградите са освободени",levelUp:"ново ниво",rejected:"отхвърлена",regTitle:"Стани Патрон",regIntro:"Четири бързи стъпки — и всеки лев се превръща в проверено почистване.",stepOf:"Стъпка {0} от 4",yourName:"Твоето име",yourEmail:"Имейл",next:"Продължи",back:"Назад",verifyTitle:"Потвърди имейла си",verifyNote:"Изпратихме код на имейла ти. (Прототип: кодът е показан по-долу.)",codeLabel:"Код за потвърждение",wrongCode:"Грешен код — опитай пак.",chooseTier:"Избери как подкрепяш",freeTier:"Freedom Rider — безплатно",freeTierDesc:"Започни безплатно: финансирай еднократни почиствания когато пожелаеш.",perMonth:"лв/месец",litersMo:"л торби / месец",skipFree:"Продължи безплатно",pickZones:"Любимите ти зони",pickZonesNote:"Мисиите от плана ти ще се създават първо тук.",finish:"Създай акаунта ми",welcome:"Добре дошла във вълната",memberTier:"Патронско ниво",lifetime:"EC общо",memberSince:"Патрон от",toNextTier:"EC до",yourPlan:"Твоят абонамент",noPlan:"Нямаш месечен план — подкрепяш с еднократни мисии.",nextBilling:"Следващо таксуване",runCycle:"Изпълни месечен цикъл (демо)",cycleDone:"Месечният цикъл мина — нова мисия от плана ти",changePlan:"Смени план",cancelPlan:"Откажи плана",cancelConfirm:"Да откажа ли месечния план? Нивото и историята ти остават.",planCancelled:"Планът е отказан. Можеш да се абонираш отново по всяко време.",planChanged:"Планът е сменен",profile:"Профил и настройки",favZones:"Любими зони",saveProfile:"Запази промените",saved:"Запазено",downloadReport:"Свали отчет за въздействието",reportTitle:"Отчет за проверено въздействие",generatedFor:"Изготвен за",closeAccount:"Закрий акаунта (Забрави ме)",closeWarn:"GDPR право на изтриване: профилът и личните ти данни се изтриват; завършените мисии остават анонимизирани за целостта на платформата.",closeConfirm1:"Да изтрия ли акаунта и личните ти данни?",closeConfirm2:"Действието е необратимо. Продължавам ли?",accountClosed:"Акаунтът е закрит. Личните ти данни са изтрити — благодарим за следата, която оставяш.",formerPatron:"Бивш Патрон",tierLabel:"Ниво",selected:"Избран",choose:"Избери"},
+ fr:{tagline:"Prototype MVP v0.5 — paiements fictifs, données locales",
   nav:{Map:"Carte",Patron:"Mécène",Doer:"Volontaire",Admin:"Admin",Ledger:"Registre"},
   zones:{Z1:"Sofia — Borisova Gradina",Z2:"Sofia — Vitosha",Z3:"Plovdiv — Maritsa",Z4:"Varna — Asparuhovo"},
   status:{Available:"Ouverte",Claimed:"Prise",Submitted:"En attente",Validated:"Validée",Rejected:"Rejetée"},
@@ -184,10 +188,10 @@ const I18N = {
   danger:"Zone dangereuse",reset:"Réinitialiser les données",resetConfirm:"Effacer toutes les données du prototype ?",
   ledgerBanner:"Le <b>registre Eco Coin</b> — chaque mouvement est une écriture interne. Aucun argent réel ne circule (modèle séquestre). Le retrait est désactivé dans le pilote.",
   ledgerEntries:"Écritures EC",noEntries:"Pas encore d'écritures — financez d'abord une mission.",thTime:"Heure",thAccount:"Compte",thType:"Type",thNote:"Note",kcxp:"Karma Coins et XP",
-  footer:"Le prototype fonctionne entièrement dans votre navigateur (localStorage). Réinitialisation via l'onglet Admin. Créé avec Claude — v0.4.",
+  footer:"Le prototype fonctionne entièrement dans votre navigateur (localStorage). Réinitialisation via l'onglet Admin. Créé avec Claude — v0.5.",
   demoDoer:"Volontaire démo",target:"objectif",claimed:"prise",fundedToast:"financée — visible sur la carte",validAmount:"Entrez un montant valide",
-  capturing:"Capture GPS…",submitted:"Preuves soumises avec GPS",rewardsReleased:"validée — récompenses libérées",levelUp:"niveau supérieur",rejected:"rejetée"},
- de:{tagline:"MVP-Prototyp v0.4 — Testzahlungen, lokale Daten",
+  capturing:"Capture GPS…",submitted:"Preuves soumises avec GPS",rewardsReleased:"validée — récompenses libérées",levelUp:"niveau supérieur",rejected:"rejetée",regTitle:"Devenir Mécène",regIntro:"Quatre étapes rapides — et chaque lev devient un nettoyage vérifié.",stepOf:"Étape {0} sur 4",yourName:"Votre nom",yourEmail:"Email",next:"Continuer",back:"Retour",verifyTitle:"Confirmez votre email",verifyNote:"Nous avons envoyé un code à votre email. (Prototype : le code est affiché ci-dessous.)",codeLabel:"Code de vérification",wrongCode:"Code erroné — réessayez.",chooseTier:"Choisissez votre soutien",freeTier:"Freedom Rider — gratuit",freeTierDesc:"Commencez gratuitement : financez des nettoyages ponctuels quand vous voulez.",perMonth:"BGN/mois",litersMo:"L sacs / mois",skipFree:"Continuer gratuitement",pickZones:"Vos zones favorites",pickZonesNote:"Les missions de votre plan seront créées ici en premier.",finish:"Créer mon compte",welcome:"Bienvenue dans la vague",memberTier:"Niveau Mécène",lifetime:"EC au total",memberSince:"Mécène depuis",toNextTier:"EC jusqu'à",yourPlan:"Votre abonnement",noPlan:"Pas de plan mensuel — vous soutenez par missions ponctuelles.",nextBilling:"Prochain prélèvement",runCycle:"Exécuter le cycle mensuel (démo)",cycleDone:"Cycle mensuel exécuté — nouvelle mission financée",changePlan:"Changer de plan",cancelPlan:"Annuler le plan",cancelConfirm:"Annuler votre plan mensuel ? Votre niveau et votre historique restent.",planCancelled:"Plan annulé. Vous pouvez vous réabonner à tout moment.",planChanged:"Plan modifié",profile:"Profil et paramètres",favZones:"Zones favorites",saveProfile:"Enregistrer",saved:"Enregistré",downloadReport:"Télécharger le rapport d'impact",reportTitle:"Rapport d'impact vérifié",generatedFor:"Généré pour",closeAccount:"Fermer le compte (Oubliez-moi)",closeWarn:"Droit à l'effacement (RGPD) : votre profil et vos données personnelles sont supprimés ; les missions accomplies restent anonymisées pour l'intégrité de la plateforme.",closeConfirm1:"Supprimer votre compte et vos données personnelles ?",closeConfirm2:"Action irréversible. Continuer ?",accountClosed:"Compte fermé. Vos données ont été effacées — merci pour l'impact que vous laissez.",formerPatron:"Ancien Mécène",tierLabel:"Niveau",selected:"Choisi",choose:"Choisir"},
+ de:{tagline:"MVP-Prototyp v0.5 — Testzahlungen, lokale Daten",
   nav:{Map:"Karte",Patron:"Förderer",Doer:"Helfer",Admin:"Admin",Ledger:"Register"},
   zones:{Z1:"Sofia — Borisova Gradina",Z2:"Sofia — Witoscha",Z3:"Plowdiw — Mariza",Z4:"Warna — Asparuhovo"},
   status:{Available:"Offen",Claimed:"Übernommen",Submitted:"In Prüfung",Validated:"Validiert",Rejected:"Abgelehnt"},
@@ -213,9 +217,9 @@ const I18N = {
   danger:"Gefahrenzone",reset:"Alle Daten löschen",resetConfirm:"Alle Prototyp-Daten löschen?",
   ledgerBanner:"Das <b>Eco-Coin-Register</b> — jede Bewegung ist ein interner Eintrag. Kein echtes Geld fließt in der Plattform (Treuhandmodell). Auszahlung im Pilot deaktiviert.",
   ledgerEntries:"EC-Einträge",noEntries:"Noch keine Einträge — finanziere zuerst eine Mission.",thTime:"Zeit",thAccount:"Konto",thType:"Typ",thNote:"Notiz",kcxp:"Karma Coins & XP",
-  footer:"Der Prototyp läuft vollständig in deinem Browser (localStorage). Zurücksetzen im Admin-Tab. Erstellt mit Claude — v0.4.",
+  footer:"Der Prototyp läuft vollständig in deinem Browser (localStorage). Zurücksetzen im Admin-Tab. Erstellt mit Claude — v0.5.",
   demoDoer:"Demo-Helfer",target:"Ziel",claimed:"übernommen",fundedToast:"finanziert — jetzt auf der Karte",validAmount:"Gültigen Betrag eingeben",
-  capturing:"GPS wird erfasst…",submitted:"Nachweise eingereicht mit GPS",rewardsReleased:"validiert — Belohnungen freigegeben",levelUp:"Stufenaufstieg",rejected:"abgelehnt"}
+  capturing:"GPS wird erfasst…",submitted:"Nachweise eingereicht mit GPS",rewardsReleased:"validiert — Belohnungen freigegeben",levelUp:"Stufenaufstieg",rejected:"abgelehnt",regTitle:"Förderer werden",regIntro:"Vier schnelle Schritte — und jeder Lev wird zu einer verifizierten Reinigung.",stepOf:"Schritt {0} von 4",yourName:"Dein Name",yourEmail:"E-Mail",next:"Weiter",back:"Zurück",verifyTitle:"E-Mail bestätigen",verifyNote:"Wir haben dir einen Code geschickt. (Prototyp: der Code steht unten.)",codeLabel:"Bestätigungscode",wrongCode:"Falscher Code — versuch es erneut.",chooseTier:"Wähle deine Unterstützung",freeTier:"Freedom Rider — kostenlos",freeTierDesc:"Starte kostenlos: finanziere einmalige Reinigungen wann immer du willst.",perMonth:"BGN/Monat",litersMo:"L Säcke / Monat",skipFree:"Kostenlos fortfahren",pickZones:"Deine Lieblingszonen",pickZonesNote:"Missionen aus deinem Plan entstehen zuerst hier.",finish:"Konto erstellen",welcome:"Willkommen in der Welle",memberTier:"Förderer-Stufe",lifetime:"EC gesamt",memberSince:"Förderer seit",toNextTier:"EC bis",yourPlan:"Dein Abo",noPlan:"Kein Monatsplan — du unterstützt mit einmaligen Missionen.",nextBilling:"Nächste Abbuchung",runCycle:"Monatszyklus ausführen (Demo)",cycleDone:"Monatszyklus ausgeführt — neue Mission aus deinem Plan",changePlan:"Plan wechseln",cancelPlan:"Plan kündigen",cancelConfirm:"Monatsplan kündigen? Stufe und Verlauf bleiben erhalten.",planCancelled:"Plan gekündigt. Du kannst jederzeit neu abonnieren.",planChanged:"Plan geändert",profile:"Profil & Einstellungen",favZones:"Lieblingszonen",saveProfile:"Speichern",saved:"Gespeichert",downloadReport:"Wirkungsbericht herunterladen",reportTitle:"Verifizierter Wirkungsbericht",generatedFor:"Erstellt für",closeAccount:"Konto schließen (Vergiss mich)",closeWarn:"DSGVO-Recht auf Löschung: Profil und persönliche Daten werden gelöscht; abgeschlossene Missionen bleiben anonymisiert erhalten.",closeConfirm1:"Konto und persönliche Daten löschen?",closeConfirm2:"Das kann nicht rückgängig gemacht werden. Fortfahren?",accountClosed:"Konto geschlossen. Deine Daten wurden gelöscht — danke für die Wirkung, die du hinterlässt.",formerPatron:"Ehemaliger Förderer",tierLabel:"Stufe",selected:"Gewählt",choose:"Wählen"}
 };
 let LANG = localStorage.getItem("gvw_lang") || "bg";
 function t(k){ const d=I18N[LANG]||I18N.en; return (k in d? d[k] : (I18N.en[k] ?? k)); }
@@ -273,9 +277,9 @@ function nextLevel(xp){ return LEVELS.find(l=>l.xp>xp) || null; }
 function fundMission(zoneName, bgn){
   const ec = bgnToEC(bgn), kg = ec / P.EC_PER_KG, z = zoneByName(zoneName);
   const m = { id:"GV-"+String(db.seq++).padStart(3,"0"), zone:zoneName, ec:+ec.toFixed(2), kg:+kg.toFixed(2),
-              status:"Available", patron:"Val (Patron)", doer:null, evidence:null, loc:randLoc(z),
+              status:"Available", patron:patronName(), doer:null, evidence:null, loc:randLoc(z),
               history:[ts()+" — Funded with "+fmt(bgn)+" BGN → "+fmt(ec)+" EC (mock payment)"] };
-  db.ecLedger.push({ ts:ts(), who:"Val (Patron)", type:"Funding", ec:m.ec, note:m.id+" · "+zoneName });
+  db.ecLedger.push({ ts:ts(), who:patronName(), type:"Funding", ec:m.ec, note:m.id+" · "+zoneName });
   db.missions.unshift(m); save(); return m;
 }
 function claim(id){ const m=get(id); m.status="Claimed"; m.doer="Maria (Doer)"; m.history.push(ts()+" — Claimed by Maria"); save(); }
@@ -453,19 +457,166 @@ function initMap(){
   MAP.on("mouseleave","zones-fill",()=>MAP.getCanvas().style.cursor="");
 }
 
-/* ---- Patron ---- */
-function patronView(){
-  const i = impactFor("Val (Patron)");
+/* ---- Patron journey (E2E: registration -> membership -> impact -> account close) ---- */
+const TIERS = [{n:0,ec:0,name:"Freedom Rider"},{n:1,ec:50,name:"Vibe Founder"},{n:2,ec:150,name:"Pulse Driver"},
+               {n:3,ec:400,name:"Change Igniter"},{n:4,ec:1000,name:"History Maker"}];
+const PLANS = [{id:"starter",name:"Starter Clean",bgn:17,vol:30},{id:"boost",name:"Clean Boost",bgn:21,vol:60},
+               {id:"force",name:"Green Force",bgn:27,vol:90},{id:"ally",name:"Eco Ally",bgn:40,vol:120},
+               {id:"gpatron",name:"Green Patron",bgn:60,vol:160}];
+let REG = {step:1, name:"", email:"", code:"", codeIn:"", plan:null, zones:[]};
+function patronName(){ return db.patron ? db.patron.name : "Val (Patron)"; }
+function tierFor(ec){ let t=TIERS[0]; for(const x of TIERS){ if(ec>=x.ec) t=x; } return t; }
+function nextTierOf(ec){ return TIERS.find(x=>x.ec>ec)||null; }
+function planById(id){ return PLANS.find(p=>p.id===id)||null; }
+
+function patronView(){ return db.patron ? patronDash() : regView(); }
+
+function regView(){
+  const dots = [1,2,3,4].map(i=>`<span class="dot" style="width:10px;height:10px;background:${i<=REG.step?'#7fbf87':'#dfe7df'}"></span>`).join(" ");
+  let body="";
+  if(REG.step===1){
+    body = `<label>${t("yourName")}</label><input id="rn" value="${REG.name}" onchange="REG.name=this.value">
+      <label>${t("yourEmail")}</label><input id="re" type="email" value="${REG.email}" onchange="REG.email=this.value">
+      <button class="act" onclick="regNext1()">${t("next")}</button>`;
+  } else if(REG.step===2){
+    body = `<h3>${t("verifyTitle")}</h3><p class="muted">${t("verifyNote")}</p>
+      <div style="background:var(--light);border-radius:8px;padding:10px 16px;display:inline-block;font-size:20px;font-weight:700;letter-spacing:.3em">${REG.code}</div>
+      <label>${t("codeLabel")}</label><input id="rc" value="${REG.codeIn}" onchange="REG.codeIn=this.value">
+      <div style="margin-top:10px"><button class="sec" onclick="REG.step=1;render()">${t("back")}</button>
+      <button class="act" onclick="regNext2()">${t("next")}</button></div>`;
+  } else if(REG.step===3){
+    body = `<h3>${t("chooseTier")}</h3>
+      <div class="row">
+        <div class="card" style="border:2px solid ${REG.plan===null?'#7fbf87':'transparent'}">
+          <h2>${t("freeTier")}</h2><p class="muted">${t("freeTierDesc")}</p>
+          <button class="sec" onclick="REG.plan=null;render()">${REG.plan===null?t("selected"):t("skipFree")}</button></div>
+        ${PLANS.map(p=>`<div class="card" style="border:2px solid ${REG.plan===p.id?'#7fbf87':'transparent'}">
+          <h2>${p.name}</h2><div class="stat"><span class="v">${p.bgn}</span><br><span class="l">${t("perMonth")}</span></div>
+          <div class="stat"><span class="v">${p.vol}</span><br><span class="l">${t("litersMo")}</span></div>
+          <button class="sec" onclick="REG.plan='${p.id}';render()">${REG.plan===p.id?t("selected"):t("choose")}</button></div>`).join("")}
+      </div>
+      <div style="margin-top:10px"><button class="sec" onclick="REG.step=2;render()">${t("back")}</button>
+      <button class="act" onclick="REG.step=4;render()">${t("next")}</button></div>`;
+  } else {
+    body = `<h3>${t("pickZones")}</h3><p class="muted">${t("pickZonesNote")}</p>
+      ${ZONES.map(z=>`<label style="display:flex;align-items:center;gap:8px;color:#212121;font-weight:700">
+        <input type="checkbox" style="width:auto" ${REG.zones.includes(z.name)?"checked":""} onchange="toggleRegZone('${z.id}',this.checked)">${zLabel(z)}</label>`).join("")}
+      <div style="margin-top:12px"><button class="sec" onclick="REG.step=3;render()">${t("back")}</button>
+      <button class="act" onclick="finishReg()">${t("finish")}</button></div>`;
+  }
+  return `<div class="banner">${t("regIntro")}</div>
+    <div class="card"><h2>${t("regTitle")} · ${t("stepOf").replace("{0}",REG.step)}</h2>
+    <div style="display:flex;gap:6px;margin-bottom:12px">${dots}</div>${body}</div>`;
+}
+function toggleRegZone(zid,on){ const z=ZONES.find(x=>x.id===zid); if(!z) return;
+  REG.zones = on ? [...new Set([...REG.zones,z.name])] : REG.zones.filter(n=>n!==z.name); }
+function regNext1(){
+  REG.name=(document.getElementById("rn")||{}).value||REG.name;
+  REG.email=(document.getElementById("re")||{}).value||REG.email;
+  if(!REG.name.trim() || !/.+@.+\..+/.test(REG.email)) return toast(t("wrongCode").replace("…",""))||toast(t("yourEmail")+" ?");
+  REG.code = String(Math.floor(1000+Math.random()*9000)); REG.step=2; render();
+}
+function regNext2(){
+  REG.codeIn=(document.getElementById("rc")||{}).value||REG.codeIn;
+  if(REG.codeIn.trim()!==REG.code) return toast(t("wrongCode"));
+  REG.step=3; render();
+}
+function finishReg(){
+  db.patron = { name:REG.name.trim(), email:REG.email.trim(), joined:ts().slice(0,10),
+                plan:REG.plan, zones:REG.zones.length?REG.zones:[ZONES[0].name], lifetimeEC:0, cycles:0 };
+  save();
+  if(db.patron.plan) runCycle(true);
+  toast(t("welcome")+", "+db.patron.name+"!");
+  REG={step:1,name:"",email:"",code:"",codeIn:"",plan:null,zones:[]};
+  render();
+}
+function runCycle(silent){
+  if(!db.patron || !db.patron.plan) return;
+  const p = planById(db.patron.plan); if(!p) return;
+  const zone = db.patron.zones[db.patron.cycles % db.patron.zones.length] || ZONES[0].name;
+  const m = fundMission(zone, p.bgn);
+  db.patron.lifetimeEC += m.ec; db.patron.cycles += 1; save();
+  if(!silent){ toast(t("cycleDone")); render(); }
+}
+function changePlan(id){ if(!db.patron) return; db.patron.plan = id||null; save(); toast(t("planChanged")); render(); }
+function cancelPlan(){ if(!db.patron||!db.patron.plan) return;
+  if(!confirm(t("cancelConfirm"))) return;
+  db.patron.plan=null; save(); toast(t("planCancelled")); render(); }
+function saveProfile(){
+  if(!db.patron) return;
+  db.patron.name=(document.getElementById("pn")||{}).value||db.patron.name;
+  db.patron.email=(document.getElementById("pe")||{}).value||db.patron.email;
+  db.patron.zones = ZONES.filter(z=>{const c=document.getElementById("pz-"+z.id);return c&&c.checked;}).map(z=>z.name);
+  if(!db.patron.zones.length) db.patron.zones=[ZONES[0].name];
+  save(); toast(t("saved")); render();
+}
+function closeAccount(){
+  if(!db.patron) return;
+  if(!confirm(t("closeConfirm1"))) return;
+  if(!confirm(t("closeConfirm2"))) return;
+  const nm = db.patron.name;
+  db.missions.forEach(m=>{ if(m.patron===nm) m.patron=I18N.en.formerPatron; });
+  db.ecLedger.forEach(e=>{ if(e.who===nm) e.who=I18N.en.formerPatron; });
+  db.patron=null; save(); toast(t("accountClosed")); render();
+}
+function impactReport(){
+  if(!db.patron) return;
+  const i = impactFor(db.patron.name);
+  const tier = tierFor(db.patron.lifetimeEC);
+  const rows = db.missions.filter(m=>m.patron===db.patron.name)
+    .map(m=>`<tr><td>${m.id}</td><td>${zLabelByName(m.zone)}</td><td>${fmt(m.ec)}</td><td>${fmt(m.kg)}</td><td>${tn("status",m.status)}</td></tr>`).join("");
+  const w = window.open("", "_blank");
+  w.document.write(`<html><head><title>${t("reportTitle")}</title><style>
+    body{font-family:"Century Gothic",Verdana,sans-serif;font-size:13px;color:#1c2b1e;padding:36px}
+    h1{color:#1b5e20;font-size:22px} .tiles{display:flex;gap:14px;margin:18px 0}
+    .tile{border:1.5px solid #a5d6a7;border-radius:10px;padding:12px 18px;text-align:center}
+    .tile b{display:block;font-size:22px;color:#1b5e20}
+    table{width:100%;border-collapse:collapse;margin-top:14px;font-size:12px}
+    th,td{border-bottom:1px solid #dfe7df;padding:6px 8px;text-align:left}
+    .mut{color:#6b7a6d;font-size:11px}</style></head><body>
+    <h1>🌍 GreenVibe.Wave — ${t("reportTitle")}</h1>
+    <p>${t("generatedFor")}: <b>${db.patron.name}</b> · ${t("tierLabel")}: <b>${tier.name}</b> · ${t("memberSince")}: ${db.patron.joined} · ${new Date().toISOString().slice(0,10)}</p>
+    <div class="tiles">
+      <div class="tile"><b>${i.missions}</b>${t("missionsValidated")}</div>
+      <div class="tile"><b>${fmt(i.kg,1)}</b>${t("kgRemoved")}</div>
+      <div class="tile"><b>${fmt(i.m2,0)}</b>${t("m2Cleaned")}</div>
+      <div class="tile"><b>${fmt(i.co2,1)}</b>${t("co2Offset")}</div>
+    </div>
+    <table><tr><th>${t("thId")}</th><th>${t("thZone")}</th><th>EC</th><th>${t("thKg")}</th><th>${t("thStatus")}</th></tr>${rows}</table>
+    <p class="mut">GreenVibe.Wave · ${t("onlyValidated")} · 10 EC = 1 kg · 0.0105 kg/m² · 3 kg CO₂/kg</p>
+    <script>window.print();</${"script"}></body></html>`);
+  w.document.close();
+}
+function patronDash(){
+  const p = db.patron;
+  const i = impactFor(p.name);
+  const tier = tierFor(p.lifetimeEC), nxt = nextTierOf(p.lifetimeEC);
+  const pct = nxt? Math.min(100, Math.round(100*p.lifetimeEC/nxt.ec)) : 100;
+  const plan = planById(p.plan);
+  const nextBill = plan ? new Date(Date.now()+30*864e5).toISOString().slice(0,10) : "—";
   return `
-  <div class="banner">${t("patronBanner")}</div>
+  <div class="banner">${t("welcome")}, <b>${p.name}</b>! · <span class="lvl">${tier.name}</span> · ${fmt(p.lifetimeEC)} ${t("lifetime")} · ${t("memberSince")} ${p.joined}</div>
+  <div class="card"><h2>${t("memberTier")}: ${tier.name}</h2>
+    <div class="xpbar"><div class="xpfill" style="width:${pct}%"></div></div>
+    <span class="muted">${nxt? fmt(nxt.ec-p.lifetimeEC)+" "+t("toNextTier")+" "+nxt.name : t("maxLevel")}</span></div>
   <div class="row">
+    <div class="card"><h2>${t("yourPlan")}</h2>
+      ${plan? `<div class="stat"><span class="v">${plan.name}</span><br><span class="l">${plan.bgn} ${t("perMonth")}</span></div>
+        <div class="stat"><span class="v">${nextBill}</span><br><span class="l">${t("nextBilling")}</span></div>
+        <div><button class="sec" onclick="runCycle()">${t("runCycle")}</button>
+        <button class="sec danger" onclick="cancelPlan()">${t("cancelPlan")}</button></div>`
+      : `<p class="muted">${t("noPlan")}</p>`}
+      <label>${t("changePlan")}</label>
+      <select onchange="changePlan(this.value||null)">
+        <option value="">${t("freeTier")}</option>
+        ${PLANS.map(x=>`<option value="${x.id}" ${p.plan===x.id?"selected":""}>${x.name} — ${x.bgn} ${t("perMonth")}</option>`).join("")}
+      </select>
+    </div>
     <div class="card"><h2>${t("fundTitle")}</h2>
       <label>${t("zone")}</label><select id="fz">${ZONES.map(z=>`<option value="${z.name}">${zLabel(z)}</option>`).join("")}</select>
       <label>${t("amount")}</label><input id="fa" type="number" value="25" min="5" step="5">
-      <div class="muted" style="margin-top:8px">${t("convNote")}</div>
       <div class="muted" id="fpreview"></div>
-      <button class="act" onclick="doFund()">${t("pay")}</button>
-    </div>
+      <button class="act" onclick="doFund()">${t("pay")}</button></div>
     <div class="card"><h2>${t("yourImpact")}</h2>
       <div class="impact">
         <div class="itile"><div class="v">${i.missions}</div><div class="l">${t("missionsValidated")}</div></div>
@@ -473,15 +624,27 @@ function patronView(){
         <div class="itile"><div class="v">${fmt(i.m2,0)}</div><div class="l">${t("m2Cleaned")}</div></div>
         <div class="itile"><div class="v">${fmt(i.co2,1)}</div><div class="l">${t("co2Offset")}</div></div>
       </div>
-      <p class="muted">${t("onlyValidated")}</p>
-    </div>
+      <button class="sec" onclick="impactReport()">${t("downloadReport")}</button></div>
   </div>
-  <div class="card"><h2>${t("yourMissions")}</h2>${missionTable(db.missions.filter(m=>m.patron==="Val (Patron)"))}</div>`;
+  <div class="card"><h2>${t("yourMissions")}</h2>${missionTable(db.missions.filter(m=>m.patron===p.name))}</div>
+  <div class="card"><h2>${t("profile")}</h2>
+    <div class="row">
+      <div style="flex:1;min-width:220px"><label>${t("yourName")}</label><input id="pn" value="${p.name}">
+        <label>${t("yourEmail")}</label><input id="pe" value="${p.email}"></div>
+      <div style="flex:1;min-width:220px"><label>${t("favZones")}</label>
+        ${ZONES.map(z=>`<label style="display:flex;align-items:center;gap:8px;color:#212121;font-weight:700">
+          <input type="checkbox" id="pz-${z.id}" style="width:auto" ${p.zones.includes(z.name)?"checked":""}>${zLabel(z)}</label>`).join("")}</div>
+    </div>
+    <button class="act" onclick="saveProfile()">${t("saveProfile")}</button></div>
+  <div class="card"><h2>${t("closeAccount")}</h2>
+    <p class="muted">${t("closeWarn")}</p>
+    <button class="sec danger" onclick="closeAccount()">${t("closeAccount")}</button></div>`;
 }
 function doFund(){
   const bgn = parseFloat(document.getElementById("fa").value);
   if(!(bgn>0)) return toast(t("validAmount"));
   const m = fundMission(document.getElementById("fz").value, bgn);
+  if(db.patron){ db.patron.lifetimeEC += m.ec; save(); }
   toast(m.id+" "+t("fundedToast")); render();
 }
 
